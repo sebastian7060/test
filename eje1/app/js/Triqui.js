@@ -171,6 +171,9 @@ app.controller('TriquiController', function ($scope) {
             $scope.juego.jugador2.puntos = $scope.juego.jugador2.puntos + 1;
     }
 
+    /*
+     * bloquea y desbloquea el juego seguen el caso 
+     */
     $scope.desbloquear = function () {
         if ($scope.juego.jugador2.nombre && $scope.juego.jugador1.nombre) {
             $scope.bloqueo.nombres = false;
@@ -189,7 +192,6 @@ app.controller('TriquiController', function ($scope) {
         for (var i = 0; i < 3; i++)
             for (var j = 0; j < 3; j++)
                 if ($scope.juego.tablero[i].Fila[j].valor != "") {
-
                     a = a + 1;
                     if (a == 9)
                         $scope.juego.estadoJuego = " Es un empate";

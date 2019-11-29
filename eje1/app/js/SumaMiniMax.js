@@ -25,7 +25,7 @@ app.controller('SumaMiniMaxController', function ($scope) {
         }
 
         //limpia los valores de la variables 
-        $scope.respuesta.mayor = 0;
+        $scope.respuesta.mayor = -10000000;
         $scope.respuesta.menor = 10000000;
         $scope.arreglo = [];
         console.log($scope.camposArreglo);
@@ -80,7 +80,7 @@ app.controller('SumaMiniMaxController', function ($scope) {
 
         //limpar variables
         $scope.respuesta.suma = 0;
-        $scope.respuesta.mayor = 0;
+        $scope.respuesta.mayor = -1000000;
         $scope.respuesta.menor = 10000000;
 
         //suma los datos de 
