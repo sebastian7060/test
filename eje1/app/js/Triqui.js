@@ -115,6 +115,7 @@ app.controller('TriquiController', function ($scope) {
             $scope.juego.estadoJuego = $scope.juego.jugador2.nombre;
 
         $scope.sumarPuntos();
+
     }
 
 
@@ -143,7 +144,7 @@ app.controller('TriquiController', function ($scope) {
 
             }
         }
-        
+
     }
 
     /*
@@ -180,10 +181,22 @@ app.controller('TriquiController', function ($scope) {
         else
             $scope.bloqueo.mensaje = true;
 
-        if ($scope.juego.estadoJuego) {
-            $scope.juego.estadoJuego = " Gano "+ $scope.juego.estadoJuego;
+        if ($scope.juego.estadoJuego)
+            $scope.juego.estadoJuego = " Gano " + $scope.juego.estadoJuego;
 
-        }
+        else
+            var a = 0;
+        for (var i = 0; i < 3; i++)
+            for (var j = 0; j < 3; j++)
+                if ($scope.juego.tablero[i].Fila[j].valor != "") {
+
+                    a = a + 1;
+                    if (a == 9)
+                        $scope.juego.estadoJuego = " Es un empate";
+                }
+
+
+
     }
 
 

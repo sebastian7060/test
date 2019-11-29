@@ -12,7 +12,7 @@
 
         <!-- ingresar nombres jugadores-->
         <div ng-model="juego">
-            <form class="form-inline" >
+            <form class="form-inline">
                 <div ng-show="bloqueo.nombres">
                     <div class="a">
                         <div class="dividir">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="desbloquear()">Crear</button>
+                    <button type="submit" class="btn btn-primary mb-2 " ng-click="desbloquear()">Jugar</button>
                 </div>
                 <i ng-show="bloqueo.mensaje"> Ambos jugadores deven de tener un nombre </i>
             </form>
@@ -52,7 +52,7 @@
                 <div class="a dividir">
                     <br />
                     <p class="puntos">
-                            Puntos de {{juego.jugador1.nombre}}
+                        Puntos de {{juego.jugador1.nombre}}
                         <br />
                         {{juego.jugador1.puntos}}
                     </p>
@@ -85,16 +85,17 @@
 
                                 <div class="caja" ng-click="asignarTurno(y)">
                                     <div class="letra" ng-model="y.valor">
-                                        {{y.valor}}
-
+                                            {{y.valor}}
+                                            
                                     </div>
                                 </div>
+
                             </td>
                         </tr>
                     </table>
                 </div>
             </div>
-             
+
             <!--botones de jugar de nuevo y nueva partida-->
             <form class="form-inline">
 
@@ -115,10 +116,12 @@
 
         </div>
     </div>
+    <script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.moveTo(100,0);
+ctx.lineTo(0,100);
+ctx.stroke();
+</script>
 
 </div>
-
-
-
-
-<img src="#" alt="Alternate Text" />
