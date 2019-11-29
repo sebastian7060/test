@@ -1,0 +1,62 @@
+
+<div>
+    <div class="jumbotron text-center">
+        <div class="jumbotro"></div>
+        <h2>
+            Juego de piedra, papel o tijera extendido
+        </h2>
+    </div>
+    <!--jUEGO DE PIEDRA PAPEL O TIJERA EXTENDIDO-->
+    <form action="">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-5">
+                    <p class="puntos"> Ingresa nombre del jugador 1</p>
+                    <input ng-model="jugadores.nombre1 " value="jugador 1" class="form-control"
+                           ng-disabled="jugadores.estrategia1"><br>
+                    <br>
+                    <select ng-model="jugadores.estrategia1" class="form-control" required
+                            ng-change="mostrarImagenEstrategia1()" ng-disabled="!jugadores.nombre1">
+                        <option ng-repeat="x in estrategia" value="{{x.nombre}}">{{x.nombre}}</option>
+                    </select><br>
+                    <div class="anchoImagen" ng-show="bloqueos.imagene1">
+                        <img src="./imagenes/{{jugadores.estrategia1}}.png" ng-disabled="!jugadores.estrategia1">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-5">
+                    <p class="puntos"> Ingresa nombre del jugador 2</p>
+                    <input ng-model="jugadores.nombre2" value="jugador 2" class="form-control" required
+                           ng-disabled="jugadores.estrategia2"> <br> <br>
+                    <div class="form-check">
+                        <select required ng-model="jugadores.estrategia2"
+                                ng-options="e.nombre as e.nombre for e in estrategia" ng-disabled="!jugadores.nombre2"
+                                class="form-control" ng-change="mostrarImagenEstrategia2()"></select>
+                        <br>
+                        <div  ng-show="bloqueos.imagene2" >
+                            <img src=".//imagenes/{{jugadores.estrategia2}}.png" ng-disabled="!jugadores.estrategia2">
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+            </div>
+        </div>
+    </form>
+    <div class="jumbotron text-center">
+        <div class="separar">
+            <br>
+            <button type="submit" class="btn btn-primary" ng-click="jugar()"
+                    ng-disabled="!jugadores.estrategia2 || !jugadores.estrategia1 ">
+                Jugar
+            </button>
+            <br><br>
+            <p>
+                {{resutado}}
+            </p>
+
+            <input type="button" class="btn btn-primary" value="Limpiar"
+                   ng-disabled="!resutado" ng-click="limpiar()">
+        </div>
+    </div>
+</div>

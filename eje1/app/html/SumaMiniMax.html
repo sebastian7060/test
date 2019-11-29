@@ -1,0 +1,89 @@
+﻿<!--Suma Mini Max-->
+<div class="jumbotron text-center">
+
+    <!--TITULO-->
+    <div>
+        <h2>
+            Suma Mini Max
+        </h2>
+    </div>
+
+    <!--ingresar numeros de campos-->
+    <div>
+        <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+
+                <input type="number" class="form-control" placeholder="Numero de Datos" ng-model="camposArreglo"  min="2" max="99999999999" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2" ng-click="crearcampos()">Crear</button>
+            <br /> <i> Ingresa cuantas posiciones quieres que tegan tu arreglo</i>
+        </form>
+    </div>
+
+
+    <!-- juego -->
+    <div div ng-show="bloqueos.arreglo">
+
+        <!-- tabla -->
+        <h3>
+            Ingrese los valores de las posiciones
+        </h3>
+        <div class="tab">
+            <div class="table table-responsive">
+                <table class="table table-dark">
+                    <tr>
+                        <td class="col-sm-1 ">Posición </td>
+                        <td class="col-sm-1">Valor</td>
+                    </tr>
+                    <tr ng-repeat="x in arreglo">
+                        <td class="col-sm-1 .col-xs-1">
+                            {{x.pos}}
+                        </td>
+                        <td class="col-sm-1 .col-xs-1">
+                            <input type="number" ng-change=" validarValorCampos() " class="form-control" ng-model="x.valor" maxlength="7" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
+                            <i>{{x.alerta}}</i>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!--botones-->
+        <br />
+        <button type="submit" class="btn btn-primary mb-2" ng-click="asignarValoresAleatorios()">Valores aleatorios</button>
+        <br />
+        <br />
+
+        <!--respuestas-->
+        <div class="tab">
+
+            <!--respuesta de cual es  mayor y menor-->
+            <div ng-show="bloqueos.respuestas" >
+                <p ng-model="arreglo[1].mensaje2"> Tu arreglo es :   {{arreglo[1].mensaje2}} </p>
+                <p ng-model="respuesta.mayor"> La mayor suma es: {{mesaje.derechaIzquierda}}  {{respuesta.mayor}}</p>
+                <p ng-model="respuesta.menor"> La menor suma es  {{respuesta.menor}}</p>
+
+            </div>
+
+            <!--respuesta explicasion-->
+            <div class="table table-responsive" ng-show="bloqueos.respuestas">
+                <br /> <br />
+                <div class="col-sm-12"></div>
+                <table class="table table-dark">
+                    <tr ng-repeat="x in arreglo">
+                        <td class="col-sm-8 .col-xs-4" ng-model="x.mensaje"> Si sumamos todos excepto {{x.mensaje}}</td>
+                        <td class="col-sm-1 .col-xs-1"> = </td>
+                        <td class="col-sm-3 .col-xs-1"> {{x.resultado}}</td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

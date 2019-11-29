@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!-- librerias de estilos -->
+    <meta charset="utf-8">
+    <title> Prueba ingreso desarrollo</title>
+    <link rel="shortcut icon" href="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/75be9b19-f5cf-433c-9609-a46e462b134d/d9wrfrf-c8018067-7f91-4581-b1af-39bf47ba2993.png">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="./css/eje1.css" rel="stylesheet" />
+</head>
+
+<body data-spy="scroll" data-offset="0" data-target="#navigation">
+    <div ng-app="Juego">
+        <div id="navigation" class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <!-- Barra de navegación fija del sitio -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand smothscroll" href="#!Inicio"><b>Inicio</b></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#!piedraPapelTijera">Piedra papel tijera</a></li>
+                        <li><a href="#!SumaDeArreglos">Suma de arreglos</a></li>
+                        <li><a href="#!SumaMiniMax">Suma mini max</a></li>
+                        <li><a href="#!DiferenciaDiagonal">Diferencia diagonal</a></li>
+                        <li><a href="#!Triqui">Triqui</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div ng-view></div>
+    </div>
+    <!-- librerias de java script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="./menu.js"></script>
+    <script src="./js/PiedraPapelTijera.js"></script>
+    <script src="./js/SumaDeArreglos.js"></script>
+    <script src="./js/SumaMiniMax.js"></script>
+    <script src="./js/DiferenciaDiagonal.js"></script>
+    <script src="./js/Triqui.js"></script>
+</body>
+</html>
+
+
+

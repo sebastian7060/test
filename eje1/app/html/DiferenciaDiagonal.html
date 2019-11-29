@@ -1,0 +1,63 @@
+﻿<!--Suma Mini Max-->
+<div class="jumbotron text-center">
+
+    <!--titulo-->
+    <div>
+        <h2>
+            Diferencia de la diagonal
+        </h2>
+    </div>
+
+    <!--formulario para saber cuantos campos crear-->
+    <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+
+            <input type="number" class="form-control" placeholder="Numero de Datos" ng-model="numeroPosiciones" min="2" max="10" required maxlength="2"
+                   oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" ng-click="crearDiagonal()">Crear</button>
+        <br /> <i> Ingresa cuantas posiciones quieres que tengan tu diagonal</i>
+    </form>
+
+    <!--zona de juego-->
+    <div ng-show="bloqueos.diagonal">
+
+        <p>Ingrese los valores de las posiciones</p>
+
+        <!--tabla-->
+        <div class="table table-responsive">
+            <div class="tab row">
+                <table class="table table-dark col-sm-1 col-xs-100 ">
+                    <tr ng-repeat="y in diagonal ">
+                        <td class="  " ng-repeat="x in y.x">
+                            <input class="form-control" type="number" ng-model="x.valor" ng-change="validarValorCampos()" maxlength="7"
+                                   oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
+                            <i>{{x.alerta}}</i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2" ng-click="asignarValoresAleatorios()" ng-disabled="bloqueos.boton">Valores aleatorios</button>
+
+        <!--respuesta-->
+        <div ng-show="bloqueos.respuestas">
+            <p ng-model="suma">
+                La diagonal de izquierda a derecha es: {{suma.mesaje1}} = {{suma.izquierdaDerecha}}
+                <br />
+                La diagonal de derecha a izquierda es: {{suma.mesaje2}} = {{suma.derechaIzquierda}}
+                <br />
+                El valor absoluto de la diferencia es : |{{suma.izquierdaDerecha}} - {{suma.derechaIzquierda}}| = {{suma.diferencia}}
+                <br />
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
