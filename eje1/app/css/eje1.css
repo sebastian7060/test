@@ -1,9 +1,5 @@
 * {
-    margin: none;
-    margin-top: none;
-    padding: none;
-    padding-top: none;
-    float: ceneter;
+
     box-sizing: border-box;
 }
 
@@ -28,11 +24,8 @@ img {
     padding-bottom: 3px;
 }
 
-.la {
-    float: left;
-    width: 30%;
-    margin-right: 5%;
-}
+
+
 
 h1 {
     font-size: 3em;
@@ -71,7 +64,7 @@ body {
     }
 
     table {
-        float: left;
+    
     }
 
     .form-control1 {
@@ -134,17 +127,29 @@ body {
         }
     }
     .puntos{
+        text-align: center;
        font-size:1.3em;
     }
     .form-inline{
         text-align:center;
     }
   
-    botonnuevapartida {
+    botonNuevaPartida {
         font-size: 25px;
         background-color: #ff4d00;
     }
     canvas{
-        background:
+        background:RED;
     }
+    .puntosMasgrande {
+        text-align: center;
+        font-size: 3.3em;
+        color: #ff6a23;
+    }
+    .caja1 {
+        text-align:center;
+        width:100%;
+      
+    }
+
 }

@@ -9,7 +9,7 @@
     <div class="col-sm-12 .col-xs-7">
         <br />
         <br />
-        
+
         <div>
             <div class="tab">
                 <form>
@@ -17,15 +17,16 @@
                     <p class="puntos">
                         Ingrese número de posiciones de los arreglos
                     </p>
-                    <div class="la">
+                    <div class="caja1">
+                        <div class="la">
 
-                        <input type="number" width="30" % class="col-sm-1 form-control" ng-model="numeroCampos" min="1" max="100" required maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
+                            <input type="number" width="30" % class="col-sm-1 form-control" ng-model="numeroCampos" min="1" max="100" required maxlength="2" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
 
-                        <i>(Máximo 99 posiciones)</i>
-                        <br />
-                    </div>
-                    <div class="la">
+                            <i>(Máximo 99 posiciones)</i>
+                            <br />
+                        </div>
                         <button class="btn btn-primary" ng-click="crearRegistros()">Generar</button>
+
                     </div>
                 </form>
 

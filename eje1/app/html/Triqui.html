@@ -13,7 +13,7 @@
         <!-- ingresar nombres jugadores-->
         <div ng-model="juego">
             <br />
-            
+
             <form class="form-inline">
                 <div ng-show="bloqueo.nombres">
                     <div class="a">
@@ -55,7 +55,8 @@
                     <br />
                     <p class="puntos">
                         Puntos de {{juego.jugador1.nombre}}
-                        <br />
+                    </p>
+                    <p class="puntosMasgrande">
                         {{juego.jugador1.puntos}}
                     </p>
 
@@ -64,9 +65,12 @@
                     <br />
                     <p class="puntos">
                         Puntos de {{juego.jugador2.nombre}}
-                        <br />
+
+                    </p>
+                    <p class="puntosMasgrande">
                         {{juego.jugador2.puntos}}
                     </p>
+
 
                 </div>
             </div>
@@ -74,8 +78,8 @@
             <!--turno-->
 
             <div>
-                <h2>Turno:  {{juego.Turno}}</h2>
-
+                <p class="puntos">Turno  </p>
+                <p class="puntosMasgrande">{{juego.Turno}}</p>
             </div>
 
             <!-- tablero del juego -->
@@ -87,8 +91,8 @@
 
                                 <div class="caja" ng-click="asignarTurno(y)">
                                     <div class="letra" ng-model="y.valor">
-                                            {{y.valor}}
-                                            
+                                        {{y.valor}}
+
                                     </div>
                                 </div>
 
@@ -101,12 +105,12 @@
             <!--botones de jugar de nuevo y nueva partida-->
             <form class="form-inline">
 
-                <h1 ng-model="juego.estadoJuego"> {{juego.estadoJuego}}</h1>
+                <p class="puntosMasgrande" ng-model="juego.estadoJuego" > {{juego.estadoJuego}}</p>
                 <br />
                 <div class="a form-group mx-sm-3 mb-2">
                     <button type="submit" class="btn btn-primary mb-2" ng-click="limpiarJuego()">Volver a jugar </button>
                 </div>
-                <div class="a form-group mx-sm-3 mb-2 botonnuevapartida">
+                <div class="a form-group mx-sm-3 mb-2 botonNuevaPartida">
                     <button type="submit" class=" btn btn-primary mb-2 " ng-click="init()">Nueva partida </button>
                 </div>
 
