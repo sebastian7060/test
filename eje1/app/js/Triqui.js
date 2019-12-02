@@ -10,6 +10,8 @@ app.controller('TriquiController', function ($scope) {
     };
     $scope.bloqueo = [{ juego: false, nombres: true, mensaje: false }];
 
+
+
     //Es el juego que se va a realizar en la partida
     $scope.juego;
 
@@ -71,7 +73,7 @@ app.controller('TriquiController', function ($scope) {
 
             //crea campos orisontales 
             for (var j = 0; j < 3; j++)
-                columnas.Fila.push({ posFila: j, columnas: i, valor: "", alerta: "" });
+                columnas.Fila.push({ posFila: j, columnas: i, valor: "", alerta: "", canvas: "fila" + j + "_colmna" + i });
         }
     }
 
@@ -132,6 +134,16 @@ app.controller('TriquiController', function ($scope) {
                 y.valor = "";
 
             else {
+                console.log(y.canvas);
+                var c = document.getElementById(y.canvas);
+                var ctx = c.getContext("2d");
+                ctx.font = "150px Arial";
+                ctx.fillText($scope.juego.Turno, 90, 90);
+                ctx.moveTo(90, 0);
+                ctx.lineTo(200, 10);
+                ctx.stroke();
+
+
                 y.valor = $scope.juego.Turno;
                 $scope.validarTriqui();
                 $scope.desbloquear();
@@ -151,12 +163,13 @@ app.controller('TriquiController', function ($scope) {
      * limpia el juego para volver a jugar 
      */
     $scope.limpiarJuego = function () {
-
-        $scope.juego.estadoJuego = "";
-
+        console.log("juan");
         for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++)
+            for (var j = 0; j < 3; j++) {
                 $scope.juego.tablero[i].Fila[j].valor = "";
+                $scope.juego.tablero[i].Fila[j].canvas = "5";
+
+            }
         }
     }
     /*
@@ -184,8 +197,15 @@ app.controller('TriquiController', function ($scope) {
         else
             $scope.bloqueo.mensaje = true;
 
-        if ($scope.juego.estadoJuego)
+        if ($scope.juego.estadoJuego) {
             $scope.juego.estadoJuego = " Gano " + $scope.juego.estadoJuego;
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            ctx.moveTo(0, 0);
+            ctx.lineTo(200, 100);
+
+
+        }
 
         else
             var a = 0;

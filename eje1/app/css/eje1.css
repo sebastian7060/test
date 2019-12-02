@@ -1,5 +1,4 @@
 * {
-
     box-sizing: border-box;
 }
 
@@ -57,14 +56,9 @@ body {
         color: #000;
     }
 
-    .tab {
-        margin: auto;
-        overflow: auto;
-        width: 90%;
-    }
+  
 
     table {
-    
     }
 
     .form-control1 {
@@ -85,7 +79,7 @@ body {
     }
 
     .dividir {
-        text-align:center;
+        text-align: center;
         padding-right: 10%;
         padding-left: 10%;
     }
@@ -117,6 +111,18 @@ body {
         text-align: center;
     }
 
+    .table2 {
+        margin-left: auto;
+        margin-right: auto;
+        width: 35em;
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        margin-left: auto;
+        margin-right: auto;
+        overflow: auto;
+    }
     @media screen and (min-width: 78px) {
         .table-bordered > tbody > tr > td {
             height: 3em;
@@ -126,30 +132,50 @@ body {
             border: 7px solid #337ab78f;
         }
     }
-    .puntos{
+
+    .puntos {
         text-align: center;
-       font-size:1.3em;
+        font-size: 1.3em;
     }
-    .form-inline{
-        text-align:center;
+
+    .form-inline {
+        text-align: center;
     }
-  
+
     botonNuevaPartida {
         font-size: 25px;
         background-color: #ff4d00;
     }
-    canvas{
-        background:RED;
+
+    canvas {
+        width: 90%;
+        height: 15%;
     }
+
     .puntosMasgrande {
         text-align: center;
         font-size: 3.3em;
-        color: #ff6a23;
-    }
-    .caja1 {
-        text-align:center;
-        width:100%;
-      
+        color: #00d8a6;
     }
 
+    .caja1 {
+        text-align: center;
+        width: 100%;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: #337ab7;
+    }
+
+    navbar-default .navbar-brand {
+        color: #00d8a6;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+  
 }
+#00d8a6

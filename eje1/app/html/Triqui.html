@@ -84,28 +84,29 @@
 
             <!-- tablero del juego -->
             <div>
-                <div class="tab">
-                    <table class="table table-bordered">
-                        <tr ng-repeat="x in juego.tablero">
-                            <td ng-repeat="y in x.Fila">
+                <div class="tab ">
+                    <div class="table2">
+                        <table class="table table-bordered  ">
+                            <tr ng-repeat="x in juego.tablero">
+                                <td ng-repeat="y in x.Fila">
 
-                                <div class="caja" ng-click="asignarTurno(y)">
-                                    <div class="letra" ng-model="y.valor">
-                                        {{y.valor}}
-
+                                    <div class="caja" ng-click="asignarTurno(y)" style="border: 2px solid ">
+                                        <div class="letra" ng-model="y.valor">
+                                            <canvas id="{{y.canvas}}" width="250" height="100"></canvas>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </td>
-                        </tr>
-                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!--botones de jugar de nuevo y nueva partida-->
             <form class="form-inline">
 
-                <p class="puntosMasgrande" ng-model="juego.estadoJuego" > {{juego.estadoJuego}}</p>
+                <p class="puntosMasgrande" ng-model="juego.estadoJuego"> {{juego.estadoJuego}}</p>
                 <br />
                 <div class="a form-group mx-sm-3 mb-2">
                     <button type="submit" class="btn btn-primary mb-2" ng-click="limpiarJuego()">Volver a jugar </button>
