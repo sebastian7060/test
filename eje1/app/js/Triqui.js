@@ -101,18 +101,20 @@ app.controller('TriquiController', function ($scope) {
             for (var j = 0; j < 3; j++) {
                 $scope.juego.acumulado.fila += $scope.juego.tablero[i].Fila[j].valor;
                 $scope.juego.acumulado.columna += $scope.juego.tablero[j].Fila[i].valor;
-                $scope.valorPocison.fila = i;
-                $scope.valorPocison.columna = j;
+
             }
 
             //valida si hay triqui en la columna o filas por el jugador 1
-            if ($scope.juego.acumulado.fila == "xxx" || $scope.juego.acumulado.columna == "xxx")
+            if ($scope.juego.acumulado.fila == "xxx" || $scope.juego.acumulado.columna == "xxx") {
                 $scope.juego.estadoJuego = $scope.juego.jugador1.nombre;
+                $scope.valorPocison.fila = i;
+            }
 
             //valida si hay triqui en la columna o filas por el jugador 2
-            else if ($scope.juego.acumulado.fila == "ooo" || $scope.juego.acumulado.columna == "ooo")
+            else if ($scope.juego.acumulado.fila == "ooo" || $scope.juego.acumulado.columna == "ooo") {
                 $scope.juego.estadoJuego = $scope.juego.jugador2.nombre;
-
+                $scope.valorPocison.fila = i;
+            }
             else {
                 $scope.juego.acumulado.fila = "";
                 $scope.juego.acumulado.columna = "";
@@ -187,11 +189,12 @@ app.controller('TriquiController', function ($scope) {
         //Triqui columna
         else if (direccionLinea == "columna") {
             canvas.moveTo(0, -50000);
-            canvas.lineTo(140, 100);;
+            canvas.lineTo(135, 100);;
         }
 
         //Dibuja la línea
         canvas.stroke();
+        celda = 0;
     }
 
 
@@ -230,53 +233,16 @@ app.controller('TriquiController', function ($scope) {
                     $scope.juego.Turno = "x";
             }
         }
-
     }
-
-
-
-
-
-    ///**
-    // * Limpia un canvas 
-    // * @param {any} context
-    // * @param {any} canvas
-    // */
-    //$scope.limpiarCanvas = function (canvas) {
-    //    console.log("Que es celd", celda);
-
-    //    //Entro a las propiedades del canvas
-    //    var canvas = etiqueta.getContext("2d");
-
-    //    //Limpia todo lo que hay en el canvas
-    //    canvas.clearRect(0, 0, canvas.width, canvas.height);
-
-    //    //Crea el canvas con un tamaño especifico
-    //    var w = canvas.width;
-    //    canvas.width = 1;
-    //    canvas.width = w;
-
-    //}
-
-
-
-
 
 
     /*
      * limpia el juego para volver a jugar 
      */
     $scope.limpiarJuego = function () {
-
+        $scope.valorPocison.fila = 0;
         $scope.juego.estadoJuego = "";
-
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
-                $scope.juego.tablero[i].Fila[j].valor = "";
-
-            }
-        }
-
+        $scope.crearTablero();
     }
 
 
