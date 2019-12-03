@@ -1,30 +1,32 @@
 // JavaScript source code
 var app = angular.module("Juego");
 app.controller('TriquiController', function ($scope) {
+
     //declaracion de variables y objeros
+    $scope.valorPocison = [{ fila: 0, columna: 0 }]
     $scope.jugador = {
         nombre: "",
         estrategia: 0,
         puntos: 0,
         mensaje: ""
     };
-    $scope.bloqueo = [{ juego: false, nombres: true, mensaje: false }];
-
-
+    $scope.tipoBloqueo = [{ juego: false, nombres: true, mensaje: false, mensaje1: false }];
 
     //Es el juego que se va a realizar en la partida
     $scope.juego;
+
 
     /*
      * inicia las funciones para comensar el juego
      */
     $scope.init = function () {
-        $scope.bloqueo.nombres = true;
-        $scope.bloqueo.juego = false;
-        $scope.bloqueo.mensaje = false;
+        $scope.tipoBloqueo.nombres = true;
+        $scope.tipoBloqueo.juego = false;
+        $scope.tipoBloqueo.mensaje = false;
         $scope.juego = $scope.crearPartida();
         $scope.crearTablero();
     }
+
 
     /*
      * crea la partida para el juego 
@@ -38,9 +40,10 @@ app.controller('TriquiController', function ($scope) {
             Turno: "x",
             jugador1: angular.copy($scope.crearJugador("", "x")),
             jugador2: angular.copy($scope.crearJugador("", "o")),
-            acumulado: { fila: "", columna: "", diagonal1: "", diagonal2: "" }
+            acumulado: { fila: "", columna: "", diagonalDerecha: "", diagonalizquierda: "" }
         };
     }
+
 
     /*
      * Crea los jugadores para el juego piedra papel o tijera
@@ -58,6 +61,7 @@ app.controller('TriquiController', function ($scope) {
         };
     }
 
+
     /*
      * crear tablero de juego
      */
@@ -68,14 +72,15 @@ app.controller('TriquiController', function ($scope) {
 
         //crea campos vertical
         for (var i = 0; i < 3; i++) {
-            var columnas = { columna: i, Fila: [] };
-            $scope.juego.tablero.push(columnas);
+            var columna = { columna: i, Fila: [] };
+            $scope.juego.tablero.push(columna);
 
             //crea campos orisontales 
             for (var j = 0; j < 3; j++)
-                columnas.Fila.push({ posFila: j, columnas: i, valor: "", alerta: "", canvas: "fila" + j + "_colmna" + i });
+                columna.Fila.push({ posFila: j, columna: i, valor: "", alerta: "", canvas: "fila" + j + "_colmna" + i });
         }
     }
+
 
     /*
      * recorre el tablero para verificar si hay triqui
@@ -83,23 +88,28 @@ app.controller('TriquiController', function ($scope) {
     $scope.validarTriqui = function () {
 
         ////limpiar variables
-        $scope.juego.acumulado = { fila: "", columna: "", diagonal1: "", diagonal2: "" };
+        $scope.juego.acumulado = { fila: "", columna: "", diagonalDerecha: "", diagonalizquierda: "" };
 
         //recorrido en diagonales y saltos de columna
         for (var i = 0; i < 3; i++) {
-            $scope.juego.acumulado.diagonal1 += $scope.juego.tablero[i].Fila[i].valor;
-            $scope.juego.acumulado.diagonal2 += $scope.juego.tablero[2 - i].Fila[i].valor;
+            $scope.valorPocison.fila = 0;
+            $scope.valorPocison.columna = 0;
+            $scope.juego.acumulado.diagonalDerecha += $scope.juego.tablero[i].Fila[i].valor;
+            $scope.juego.acumulado.diagonalizquierda += $scope.juego.tablero[2 - i].Fila[i].valor;
 
             //recorre la columna
             for (var j = 0; j < 3; j++) {
                 $scope.juego.acumulado.fila += $scope.juego.tablero[i].Fila[j].valor;
                 $scope.juego.acumulado.columna += $scope.juego.tablero[j].Fila[i].valor;
+                $scope.valorPocison.fila = i;
+                $scope.valorPocison.columna = j;
             }
 
-            //valida si hay triqui en la columna
+            //valida si hay triqui en la columna o filas por el jugador 1
             if ($scope.juego.acumulado.fila == "xxx" || $scope.juego.acumulado.columna == "xxx")
                 $scope.juego.estadoJuego = $scope.juego.jugador1.nombre;
 
+            //valida si hay triqui en la columna o filas por el jugador 2
             else if ($scope.juego.acumulado.fila == "ooo" || $scope.juego.acumulado.columna == "ooo")
                 $scope.juego.estadoJuego = $scope.juego.jugador2.nombre;
 
@@ -107,17 +117,81 @@ app.controller('TriquiController', function ($scope) {
                 $scope.juego.acumulado.fila = "";
                 $scope.juego.acumulado.columna = "";
             }
+
+
+            // dibuja la linea fila
+            if ($scope.juego.acumulado.fila == "xxx" || $scope.juego.acumulado.fila == "ooo")
+                for (var b = 0; b < $scope.juego.tablero.length; b++)
+                    $scope.dibujarLinea($scope.juego.tablero[$scope.valorPocison.fila].Fila[b], "fila");
+
+            // dibuja la linea columna
+            if ($scope.juego.acumulado.columna == "xxx" || $scope.juego.acumulado.columna == "ooo")
+                for (var b = 0; b < $scope.juego.tablero.length; b++)
+                    $scope.dibujarLinea($scope.juego.tablero[b].Fila[$scope.valorPocison.fila], "columna");
+
         }
 
-        //valida si hay triqui en la diagonal
-        if ($scope.juego.acumulado.diagonal1 == "xxx" || $scope.juego.acumulado.diagonal2 == "xxx")
+        //valida si hay triqui en la diagonal por el jugador 1
+        if ($scope.juego.acumulado.diagonalDerecha == "xxx" || $scope.juego.acumulado.diagonalizquierda == "xxx")
             $scope.juego.estadoJuego = $scope.juego.jugador1.nombre;
 
-        else if ($scope.juego.acumulado.diagonal1 == "ooo" || $scope.juego.acumulado.diagonal2 == "ooo")
+        //valida si hay triqui en la diagonal por el jugador 2
+        else if ($scope.juego.acumulado.diagonalDerecha == "ooo" || $scope.juego.acumulado.diagonalizquierda == "ooo")
             $scope.juego.estadoJuego = $scope.juego.jugador2.nombre;
+
+
+        // dibuja la linea diagonal derecha
+        if ($scope.juego.acumulado.diagonalizquierda == "xxx" || $scope.juego.acumulado.diagonalizquierda == "ooo")
+            for (var i = 0; i < $scope.juego.tablero.length; i++)
+                $scope.dibujarLinea($scope.juego.tablero[($scope.juego.tablero.length - 1) - i].Fila[i], "diagonalDerecha");
+
+        // dibuja la linea diagonal izquierda
+        else if ($scope.juego.acumulado.diagonalDerecha == "ooo" || $scope.juego.acumulado.diagonalDerecha == "xxx")
+            for (var i = 0; i < $scope.juego.tablero.length; i++)
+                $scope.dibujarLinea($scope.juego.tablero[i].Fila[i], "diagonalizquierda");
 
         $scope.sumarPuntos();
 
+    }
+
+
+    /**
+     * Obtiene en que lugar se va digujar la linea del triqui
+     */
+    $scope.dibujarLinea = function (celda, direccionLinea) {
+
+        //Obtengo la etiqueta
+        var etiqueta = document.getElementById(celda.canvas);
+
+        //Entro a las propiedades del canvas
+        var canvas = etiqueta.getContext("2d");
+
+        //Triqui diagonal derecha
+        if (direccionLinea == "diagonalDerecha") {
+            canvas.moveTo(0, 100);
+            canvas.lineTo(250, 0);
+        }
+
+        //Triqui fila diagonalizquierda
+        else if (direccionLinea == "diagonalizquierda") {
+            canvas.moveTo(0, 0);
+            canvas.lineTo(250, 100);
+        }
+
+        //Triqui fila
+        else if (direccionLinea == "fila") {
+            canvas.moveTo(0, 50);
+            canvas.lineTo(11110, 100);
+        }
+
+        //Triqui columna
+        else if (direccionLinea == "columna") {
+            canvas.moveTo(0, -50000);
+            canvas.lineTo(140, 100);;
+        }
+
+        //Dibuja la línea
+        canvas.stroke();
     }
 
 
@@ -134,46 +208,80 @@ app.controller('TriquiController', function ($scope) {
                 y.valor = "";
 
             else {
-                console.log(y.canvas);
+                //texto de canvas
                 var c = document.getElementById(y.canvas);
-                var ctx = c.getContext("2d");
-                ctx.font = "150px Arial";
-                ctx.fillText($scope.juego.Turno, 90, 90);
-                ctx.moveTo(90, 0);
-                ctx.lineTo(200, 10);
-                ctx.stroke();
+                var canvas = c.getContext("2d");
+                canvas.font = "150px  Comic Sans MS";
+                canvas.fillStyle = "#00d8a6";
+                canvas.fillText($scope.juego.Turno, 90, 90);
 
-
+                // da valor a la casilla 
                 y.valor = $scope.juego.Turno;
+
+                //llama las otras funciones 
                 $scope.validarTriqui();
                 $scope.desbloquear();
 
+                // cambio de turno 
                 if ($scope.juego.Turno == "x")
                     $scope.juego.Turno = "o";
 
                 else if ($scope.juego.Turno == "o")
                     $scope.juego.Turno = "x";
-
             }
         }
 
     }
+
+
+
+
+
+    ///**
+    // * Limpia un canvas 
+    // * @param {any} context
+    // * @param {any} canvas
+    // */
+    //$scope.limpiarCanvas = function (canvas) {
+    //    console.log("Que es celd", celda);
+
+    //    //Entro a las propiedades del canvas
+    //    var canvas = etiqueta.getContext("2d");
+
+    //    //Limpia todo lo que hay en el canvas
+    //    canvas.clearRect(0, 0, canvas.width, canvas.height);
+
+    //    //Crea el canvas con un tamaño especifico
+    //    var w = canvas.width;
+    //    canvas.width = 1;
+    //    canvas.width = w;
+
+    //}
+
+
+
+
+
 
     /*
      * limpia el juego para volver a jugar 
      */
     $scope.limpiarJuego = function () {
-        console.log("juan");
+
+        $scope.juego.estadoJuego = "";
+
         for (var i = 0; i < 3; i++) {
             for (var j = 0; j < 3; j++) {
                 $scope.juego.tablero[i].Fila[j].valor = "";
-                $scope.juego.tablero[i].Fila[j].canvas = "5";
 
             }
         }
+
     }
+
+
     /*
-     * suma un punto a un jugador cuando aga triqui
+     * suma puntos a un jugador cuando hay triqui
      */
     $scope.sumarPuntos = function () {
 
@@ -184,30 +292,32 @@ app.controller('TriquiController', function ($scope) {
             $scope.juego.jugador2.puntos = $scope.juego.jugador2.puntos + 1;
     }
 
+
     /*
      * bloquea y desbloquea el juego seguen el caso 
      */
     $scope.desbloquear = function () {
         if ($scope.juego.jugador2.nombre && $scope.juego.jugador1.nombre) {
-            $scope.bloqueo.nombres = false;
-            $scope.bloqueo.juego = true;
-            $scope.bloqueo.mensaje = false;
+            if ($scope.juego.jugador2.nombre == $scope.juego.jugador1.nombre) {
+                $scope.tipoBloqueo.mensaje1 = true;
+                $scope.tipoBloqueo.mensaje = false;
+            }
+            else {
+                $scope.tipoBloqueo.mensaje1 = false;
+                $scope.tipoBloqueo.nombres = false;
+                $scope.tipoBloqueo.juego = true;
+                $scope.tipoBloqueo.mensaje = false;
+            }
         }
-
-        else
-            $scope.bloqueo.mensaje = true;
-
-        if ($scope.juego.estadoJuego) {
+        else {
+            $scope.tipoBloqueo.mensaje = true;
+            $scope.tipoBloqueo.mensaje1 = false;
+        }
+        if ($scope.juego.estadoJuego)
             $scope.juego.estadoJuego = " Gano " + $scope.juego.estadoJuego;
-            var c = document.getElementById("myCanvas");
-            var ctx = c.getContext("2d");
-            ctx.moveTo(0, 0);
-            ctx.lineTo(200, 100);
-
-
-        }
 
         else
+            // valida si hay un empate
             var a = 0;
         for (var i = 0; i < 3; i++)
             for (var j = 0; j < 3; j++)
@@ -216,8 +326,6 @@ app.controller('TriquiController', function ($scope) {
                     if (a == 9)
                         $scope.juego.estadoJuego = " Es un empate";
                 }
-
-
 
     }
 

@@ -15,7 +15,7 @@
             <br />
 
             <form class="form-inline">
-                <div ng-show="bloqueo.nombres">
+                <div ng-show="tipoBloqueo.nombres">
                     <div class="a">
                         <div class="dividir">
                             <p class="puntos">
@@ -46,10 +46,11 @@
 
                     <button type="submit" class="btn btn-primary mb-2 " ng-click="desbloquear()">Jugar</button>
                 </div>
-                <i ng-show="bloqueo.mensaje"> Ambos jugadores deven de tener un nombre </i>
+                <i ng-show="tipoBloqueo.mensaje"> Ambos jugadores deven de tener un nombre </i>
+                <i ng-show="tipoBloqueo.mensaje1"> Los jugadores deven de tener nombres distintos</i>
             </form>
         </div>
-        <div ng-show="bloqueo.juego">
+        <div ng-show="tipoBloqueo.juego">
             <div ng-model="juego">
                 <div class="a dividir">
                     <br />
@@ -90,9 +91,10 @@
                             <tr ng-repeat="x in juego.tablero">
                                 <td ng-repeat="y in x.Fila">
 
-                                    <div class="caja" ng-click="asignarTurno(y)" style="border: 2px solid ">
+                                    <div class="caja" ng-click="asignarTurno(y)">
                                         <div class="letra" ng-model="y.valor">
-                                            <canvas id="{{y.canvas}}" width="250" height="100"></canvas>
+                                            <!--<img src="#" alt="Alternate Text" />-->
+                                            <canvas id="{{y.canvas}}" width="250" height="100" ng-model="y.canvas" ng-change="y.canvas"></canvas>
                                         </div>
                                     </div>
 
