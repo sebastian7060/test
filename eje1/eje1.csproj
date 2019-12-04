@@ -75,6 +75,7 @@
     <Content Include="app\html\SumaDeArreglos.html" />
     <Content Include="app\html\SumaMiniMax.html" />
     <Content Include="app\html\Triqui.html" />
+    <Content Include="app\html\TriquiOnline.html" />
     <Content Include="app\imagenes\Lagarto.png" />
     <Content Include="app\imagenes\Papel.png" />
     <Content Include="app\imagenes\Roca.png" />
@@ -87,6 +88,7 @@
     <Content Include="app\js\SumadeArreglos.js" />
     <Content Include="app\js\SumaMiniMax.js" />
     <Content Include="app\js\Triqui.js" />
+    <Content Include="app\js\TriquiOnline.js" />
     <Content Include="app\menu.js" />
     <Content Include="Web.config" />
   </ItemGroup>

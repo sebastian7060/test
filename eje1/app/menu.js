@@ -33,6 +33,11 @@ app.config(function ($routeProvider) {
             controller: "TriquiController",
     
         })
+        .when("/TriquiOnline", {
+            templateUrl: "html/TriquiOnline.html",
+            controller: "TriquiOnlineController",
+
+        })
 
 
 }); 

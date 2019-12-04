@@ -12,6 +12,12 @@ app.controller('TriquiController', function ($scope) {
     };
     $scope.tipoBloqueo = [{ juego: false, nombres: true, mensaje: false, mensaje1: false }];
 
+    $scope.tiposJuego = [
+        { opcion: "dos jugadores" },
+        { opcion: " maquina " }
+    ];
+
+
     //Es el juego que se va a realizar en la partida
     $scope.juego;
 
@@ -58,6 +64,7 @@ app.controller('TriquiController', function ($scope) {
             estrategia: estrategia,
             puntos: 0,
             mensaje: "",
+            modoDeJuego: ""
         };
     }
 
@@ -197,12 +204,24 @@ app.controller('TriquiController', function ($scope) {
         celda = 0;
     }
 
-
     /*
      * cambia el turno para que el otro jugador pueda jugar y le da valor a la seccion del  tablero
      */
-    $scope.asignarTurno = function (y) {
+    $scope.asignarJuego = function () {
+        
+        // cambia el turno 
+        if ($scope.juego.Turno == "x")
+            $scope.juego.Turno = "o";
 
+        else if ($scope.juego.Turno == "o")
+            $scope.juego.Turno = "x";
+    }
+
+    /*
+     * marca la casilla donde hay juego 
+     */
+    $scope.marcarJuego = function (y) {
+        console.log("hola");
         // valida si tiene valor a la seccion del  tablero
         if (y.valor == "") {
 
@@ -211,28 +230,63 @@ app.controller('TriquiController', function ($scope) {
                 y.valor = "";
 
             else {
-                //texto de canvas
-                var c = document.getElementById(y.canvas);
-                var canvas = c.getContext("2d");
-                canvas.font = "150px  Comic Sans MS";
-                canvas.fillStyle = "#00d8a6";
-                canvas.fillText($scope.juego.Turno, 90, 90);
+                //if ($scope.juego.jugador1.modoDeJuego == "dos jugadores") {
+                    //texto de canvas
+                    var c = document.getElementById(y.canvas);
+                    var canvas = c.getContext("2d");
+                    canvas.font = "150px  Comic Sans MS";
+                    canvas.fillStyle = "#00d8a6";
+                    canvas.fillText($scope.juego.Turno, 90, 90);
 
-                // da valor a la casilla 
-                y.valor = $scope.juego.Turno;
+                    // da valor a la casilla 
+                    y.valor = $scope.juego.Turno;
 
-                //llama las otras funciones 
+                    //llama las otras funciones 
+                    //$scope.validarTriqui();
+                    //$scope.desbloquear();
+                    //$scope.asignarJuego();
+
+                //}
+
+                //else if ($scope.juego.jugador1.modoDeJuego == " maquina ") {
+
+                //    //texto de canvas
+                //    var c = document.getElementById(y.canvas);
+                //    var canvas = c.getContext("2d");
+                //    canvas.font = "150px  Comic Sans MS";
+                //    canvas.fillStyle = "#00d8a6";
+                //    canvas.fillText($scope.juego.Turno, 90, 90);
+
+                //    // da valor a la casilla 
+                //    y.valor = $scope.juego.Turno;
+
+                //    //llama las otras funciones 
+                //    $scope.validarTriqui();
+                //    $scope.desbloquear();
+                //    $scope.asignarJuego();
+
+                //    //texto de canvas
+                //    var c = document.getElementById(a.canvas);
+                //    var canvas = c.getContext("2d");
+                //    canvas.font = "150px  Comic Sans MS";
+                //    canvas.fillStyle = "#00d8a6";
+                //    canvas.fillText($scope.juego.Turno, 90, 90);
+                //    // da valor a la casilla 
+                //    y.valor = $scope.juego.Turno;
+
+                //    //llama las otras funciones 
+                    
+
+
+                //}
                 $scope.validarTriqui();
                 $scope.desbloquear();
-
-                // cambio de turno 
-                if ($scope.juego.Turno == "x")
-                    $scope.juego.Turno = "o";
-
-                else if ($scope.juego.Turno == "o")
-                    $scope.juego.Turno = "x";
+                $scope.asignarJuego();
             }
         }
+
+
+
     }
 
 
