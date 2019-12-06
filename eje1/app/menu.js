@@ -6,10 +6,6 @@ app.config(function ($routeProvider) {
     * Direcciones de enrutamiento de la pagina
     */
     $routeProvider
-        //.when("/", {
-        //    templateUrl: "PiedraPapelTijeraFinal.html",
-        //    controller: "JuegodePiedraPapeloTijeraExtendidoController"
-        //})
         .when("/piedraPapelTijera", {
             templateUrl: "html/PiedraPapelTijera.html",
             controller: "JuegodePiedraPapeloTijeraExtendidoController"

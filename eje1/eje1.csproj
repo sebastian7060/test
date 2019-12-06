@@ -81,7 +81,7 @@
     <Content Include="app\imagenes\Roca.png" />
     <Content Include="app\imagenes\Spock.png" />
     <Content Include="app\imagenes\Tijera.png" />
-    <Content Include="app\index.html" />
+    <Content Include="app\Index.html" />
     <Content Include="app\js\DiferenciaDiagonal.js" />
     <Content Include="app\js\Inicio.js" />
     <Content Include="app\js\PiedraPapelTijera.js" />
@@ -103,6 +103,9 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\servicios\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,20 +11,20 @@
     <div>
 
         <!-- ingresar nombres jugadores-->
-        <div ng-model="juego">
+        <div ng-model="Juego">
             <br />
 
             <form class="form-inline">
-                <div ng-show="tipoBloqueo.nombres">
+                <div ng-show="TipoBloqueo.Nombres">
                     <div class="a">
                         <div class="dividir">
                             <p class="puntos">
-                                Ingresa nombre del jugador: {{juego.jugador1.estrategia}}
+                                Ingresa nombre del jugador: {{Juego.Jugador1.Estrategia}}
 
                             </p>
                             <BR />
-                            <input type="text" class="form-control  " ng-model="juego.jugador1.nombre" placeholder="Jugador x"
-                                   ng-change="juego.jugador1.nombre" maxlength="22"
+                            <input type="text" class="form-control  " ng-model="Juego.Jugador1.Nombre" placeholder="Jugador x"
+                                   ng-change="Juego.Jugador1.Nombre" maxlength="22"
                                    oninput="if (this.value.length > this.maxLength)this.value = this.value.slice(0, this.maxLength);" />
 
 
@@ -33,51 +33,48 @@
                     <div class="a">
                         <div class="dividir">
                             <p class="puntos">
-                                Ingresa nombre del jugador: {{juego.jugador2.estrategia}}
+                                Ingresa nombre del jugador: {{Juego.Jugador2.Estrategia}}
 
                             </p>
                             <BR />
-                            <input type="text" class="form-control  " ng-model="juego.jugador2.nombre" placeholder="Jugador o"
-                                   ng-change="juego.jugador2.nombre" maxlength="22"
+                            <input type="text" class="form-control  " ng-model="Juego.Jugador2.Nombre" placeholder="Jugador o"
+                                   ng-change="Juego.Jugador2.Nombre" maxlength="22"
                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
 
                         </div>
                     </div>
                     <div>
 
-                        <!--<div class="form-check">
-                            <select ng-model="juego.jugador1.modoDeJuego" ng-options=" e.opcion as e.opcion for e in tiposJuego" class="form-control" ng-change="tiposJuego"></select>
-                        </div>-->
                         <br />
                         <br />
                     </div>
 
                     <button type="submit" class="btn btn-primary mb-2 " ng-click="desbloquear()">Jugar</button>
                 </div>
-                <i ng-show="tipoBloqueo.mensaje"> Ambos jugadores deven de tener un nombre </i>
-                <i ng-show="tipoBloqueo.mensaje1"> Los jugadores deven de tener nombres distintos</i>
+                <i ng-show="TipoBloqueo.Mensaje"> Ambos jugadores deven de tener un nombre </i>
+                <i ng-show="TipoBloqueo.Mensaje1"> Los jugadores deven de tener nombres distintos</i>
             </form>
         </div>
-        <div ng-show="tipoBloqueo.juego">
-            <div ng-model="juego">
+        <div ng-show="TipoBloqueo.Juego">
+            <div ng-model="Juego">
                 <div class="a dividir">
                     <br />
                     <p class="puntos">
-                        Puntos de {{juego.jugador1.nombre}}
+                        Puntos de {{Juego.Jugador1.Nombre}}
                     </p>
                     <p class="puntosMasgrande">
-                        {{juego.jugador1.puntos}}
+                        {{Juego.Jugador1.Puntos}}
                     </p>
 
                 </div>
                 <div class="a dividir">
                     <br />
                     <p class="puntos">
-                        Puntos de {{juego.jugador2.nombre}}
+                        Puntos de {{Juego.Jugador2.Nombre}}
 
                     </p>
                     <p class="puntosMasgrande">
-                        {{juego.jugador2.puntos}}
+                        {{Juego.Jugador2.Puntos}}
                     </p>
 
 
@@ -89,7 +86,7 @@
 
             <div>
                 <p class="puntos">Turno  </p>
-                <p class="puntosMasgrande">{{juego.Turno}}</p>
+                <p class="puntosMasgrande">{{Juego.Turno}}</p>
             </div>
 
             <!-- tablero del juego -->
@@ -98,13 +95,13 @@
                 <div class="tab ">
                     <div class="table2">
                         <table class="table table-bordered  ">
-                            <tr ng-repeat="x in juego.tablero">
+                            <tr ng-repeat="x in Juego.Tablero">
                                 <td ng-repeat="y in x.Fila">
 
                                     <div class="caja" ng-click="marcarJuego(y)">
-                                        <div class="letra" ng-model="y.valor">
+                                        <div class="letra" ng-model="y.Valor">
 
-                                            <canvas id="{{y.canvas}}" width="250" height="100" ng-model="y.canvas" ng-change="y.canvas"></canvas>
+                                            <canvas id="{{y.Canvas}}" width="250" height="100" ng-model="y.Canvas" ng-change="y.Canvas"></canvas>
                                         </div>
                                     </div>
 
@@ -118,7 +115,7 @@
             <!--botones de jugar de nuevo y nueva partida-->
             <form class="form-inline">
 
-                <p class="puntosMasgrande" ng-model="juego.estadoJuego"> {{juego.estadoJuego}}</p>
+                <p class="puntosMasgrande" ng-model="Juego.Mensaje"> {{Juego.Mensaje}}</p>
                 <br />
                 <div class="a form-group mx-sm-3 mb-2">
                     <button type="submit" class="btn btn-primary mb-2" ng-click="limpiarJuego()">Volver a jugar </button>
