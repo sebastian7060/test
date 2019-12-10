@@ -2,22 +2,43 @@
 var app = angular.module("Juego");
 app.controller('TriquiOnlineController', function ($scope, $http) {
 
+    //$http({
+    //    url: 'http://localhost:62384/api/Triqui/CrearPartida/'+"holas",
+
+    //    method: 'POST',
+    //    data: { Nombre: "hola jajaja"}
+
+    //}).then(function (dataResult) {
+
+    //    console.log("envio juego satisfactoria", dataResult);
+    //}, function (error) {
+    //    console.log("error envio juego ");
+
+    //});
 
 
-    // Simple GET request example:
-    $http({
-        method: 'GET',
-        url: 'http://localhost:62384/api/Triqui'
+    // Simple GET request example
 
-    }).then(function (dataResult) {
-        console.log("???", dataResult);
-    }, function (error) {
-        console.log("error, error");
+    //$http({
+    //    url: 'http://localhost:62384/api/Triqui/',
+    //    method: "POST",
 
-        });
+    //}).then(function (response) {
+
+    //    console.log(response);
+    //}
+    //);
+
+
+
+
+
+
+
 
 
     //declaracion de variables y objeros
+    $scope.nuemeroPosiciones = 3;
     $scope.fila = 0;
     $scope.TipoBloqueo = { Juego: false, Nombres: true, Mensaje: false, Mensaje1: false };
 
@@ -34,6 +55,9 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
         $scope.TipoBloqueo.Mensaje = false;
         $scope.Juego = $scope.crearPartida();
         $scope.crearTablero();
+
+
+
     }
 
 
@@ -48,10 +72,11 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
             EstadoJuego: "",
             Mensaje: "",
             Turno: "x",
-            Jugador1: angular.copy($scope.crearJugador("", "x")),
-            Jugador2: angular.copy($scope.crearJugador("", "o")),
+            Jugador1: angular.copy($scope.crearJugador("", "x", 0)),
+            Jugador2: angular.copy($scope.crearJugador("", "o", 0)),
             Acumulado: {}
         };
+
     }
 
 
@@ -60,7 +85,7 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
      * @param {any} nombre
      * @param {any} estrategia
      */
-    $scope.crearJugador = function (Nombre, Estrategia) {
+    $scope.crearJugador = function (Nombre, Estrategia, Puntos) {
 
         // retorno del objeto $scope.jugador
         return {
@@ -80,26 +105,18 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
         $scope.Juego.Tablero = [];
 
         //crea campos vertical
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < $scope.nuemeroPosiciones; i++) {
             var Columna = { Columna: i, Fila: [] };
             $scope.Juego.Tablero.push(Columna);
 
             //crea campos orisontales 
-            for (var j = 0; j < 3; j++)
+            for (var j = 0; j < $scope.nuemeroPosiciones; j++)
                 Columna.Fila.push({ PosFila: j, Columna: i, Valor: "", Alerta: "", Canvas: "fila" + j + "_colmna" + i });
         }
-        $http({
-            method: 'PUT',
-            url: 'http://localhost:62384/api/Triqui'
 
-        }).then(function (dataResult) {
-            $scope.Juego;
-            console.log(" envio", dataResult);
-        }, function (error) {
-            console.log("error de envio");
 
-        });
     }
+
 
 
     /*
@@ -107,24 +124,34 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
      */
     $scope.validarTriqui = function () {
 
+        //    $http({
+        //        method: 'Post',
+        //        url: 'http://localhost:62384/api/Triqui/CrearPartida',
+        //        data: 1,
+        //    }).then(function (dataResult) {
+        //        console.log("conexion satisfactoria", dataResult);
+        //    }, function (error) {
+        //        console.log("error de conexión");
+
+        //    });
         ////limpiar variables
         $scope.Juego.Acumulado = { Fila: "", Columna: "", DiagonalDerecha: "", Diagonalizquierda: "" };
 
         //recorrido en diagonales y saltos de columna
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < $scope.nuemeroPosiciones; i++) {
 
             $scope.fila = 0;
             $scope.Juego.Acumulado.DiagonalDerecha += $scope.Juego.Tablero[i].Fila[i].Valor;
             $scope.Juego.Acumulado.Diagonalizquierda += $scope.Juego.Tablero[2 - i].Fila[i].Valor;
 
             //recorre la column
-            for (var j = 0; j < 3; j++) {
+            for (var j = 0; j < $scope.nuemeroPosiciones; j++) {
                 $scope.Juego.Acumulado.Fila += $scope.Juego.Tablero[i].Fila[j].Valor;
                 $scope.Juego.Acumulado.Columna += $scope.Juego.Tablero[j].Fila[i].Valor;
 
             }
 
-           
+
 
             //valida si hay triqui en la columna o filas por el jugador 1
             if ($scope.Juego.Acumulado.Fila == "xxx" || $scope.Juego.Acumulado.Columna == "xxx") {
@@ -183,7 +210,6 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
 
     }
 
-
     /**
      * Obtiene en que lugar se va digujar la linea del triqui
      */
@@ -241,7 +267,7 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
      * marca la casilla donde hay juego 
      */
     $scope.marcarJuego = function (y) {
-        
+
         // valida si tiene valor a la seccion del  tablero
         if (y.Valor == "") {
 
@@ -325,8 +351,8 @@ app.controller('TriquiOnlineController', function ($scope, $http) {
         else
             // valida si hay un empate
             var a = 0;
-        for (var i = 0; i < 3; i++)
-            for (var j = 0; j < 3; j++)
+        for (var i = 0; i < $scope.nuemeroPosiciones; i++)
+            for (var j = 0; j < $scope.nuemeroPosiciones; j++)
                 if ($scope.Juego.Tablero[i].Fila[j].Valor != "") {
                     a = a + 1;
                     if (a == 9) {
