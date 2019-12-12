@@ -15,7 +15,8 @@
             <br />
 
             <form class="form-inline">
-                <div ng-show="TipoBloqueo.Nombres">
+                <div>
+                    <!--ng-show="TipoBloqueo.Nombres"-->
                     <div class="a">
                         <div class="dividir">
                             <p class="puntos">
@@ -23,10 +24,17 @@
 
                             </p>
                             <BR />
-                            <input type="text" class="form-control  " ng-model="Juego.Jugador1.Nombre" placeholder="Jugador x"
-                                   ng-change="Juego.Jugador1.Nombre" maxlength="22"
+                            <input type="text" class="form-control  " ng-model="Juego.Jugador.Nombre" placeholder="Jugador x"
+                                   ng-change="Juego.Jugador.Nombre" maxlength="22"
                                    oninput="if (this.value.length > this.maxLength)this.value = this.value.slice(0, this.maxLength);" />
 
+
+
+
+
+
+
+                            }
 
                         </div>
                     </div>
@@ -37,8 +45,8 @@
 
                             </p>
                             <BR />
-                            <input type="text" class="form-control  " ng-model="Juego.Jugador2.Nombre" placeholder="Jugador o"
-                                   ng-change="Juego.Jugador2.Nombre" maxlength="22"
+                            <input type="text" class="form-control  "  placeholder="Jugador o"
+                                    maxlength="22"
                                    oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
 
                         </div>
@@ -48,16 +56,21 @@
                         <br />
                         <br />
                     </div>
-
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="desbloquear()">Jugar</button>
+                    <!--ng-click="desbloquear()"-->
+                    <button type="submit" class="btn btn-primary mb-2 " ng-click="crearJugadorback()">Jugar</button>
+                    <button type="submit" class="btn btn-primary mb-2 " ng-click="recargarDatosBack()">aaaaaa</button>
                 </div>
-                <i ng-show="TipoBloqueo.Mensaje"> Ambos jugadores deven de tener un nombre </i>
-                <i ng-show="TipoBloqueo.Mensaje1"> Los jugadores deven de tener nombres distintos</i>
+                <!--ng-show="TipoBloqueo.Mensaje"-->
+                <i> Ambos jugadores deben de tener un nombre </i>
+                <!--ng-show="TipoBloqueo.Mensaje1"-->
+                <i> Los jugadores deben de tener nombres distintos</i>
             </form>
         </div>
-        <div ng-show="TipoBloqueo.Juego">
+        <!--ng-show="TipoBloqueo.Juego"-->
+        <div>
             <div ng-model="Juego">
                 <div class="a dividir">
+
                     <br />
                     <p class="puntos">
                         Puntos de {{Juego.Jugador1.Nombre}}
