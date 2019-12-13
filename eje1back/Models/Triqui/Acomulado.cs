@@ -11,8 +11,6 @@ namespace eje1back.Models.Triqui
         public string Columna { get; set; }
         public string DiagonalDerecha { get; set; }
         public string Diagonalizquierda { get; set; }
-      
-
     }
     
 }

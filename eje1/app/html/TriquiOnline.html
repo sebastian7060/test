@@ -9,7 +9,12 @@
 
     <!-- juego -->
     <div>
-
+        juego.Jugador1.IdJugador
+        {{Juego.Jugador1.IdJugador}}<br />
+        juego.Jugador2.IdJugador
+        {{Juego.Jugador2.IdJugador}}<br />
+        Idpartida
+        {{Juego.Idpartida}}<br />
         <!-- ingresar nombres jugadores-->
         <div ng-model="Juego">
             <br />
@@ -17,10 +22,10 @@
             <form class="form-inline">
                 <div>
                     <!--ng-show="TipoBloqueo.Nombres"-->
-                    <div class="a">
+                    <div>
                         <div class="dividir">
                             <p class="puntos">
-                                Ingresa nombre del jugador: {{Juego.Jugador1.Estrategia}}
+                                Ingresa nombre del jugador:
 
                             </p>
                             <BR />
@@ -28,29 +33,9 @@
                                    ng-change="Juego.Jugador.Nombre" maxlength="22"
                                    oninput="if (this.value.length > this.maxLength)this.value = this.value.slice(0, this.maxLength);" />
 
-
-
-
-
-
-
-                            }
-
                         </div>
                     </div>
-                    <div class="a">
-                        <div class="dividir">
-                            <p class="puntos">
-                                Ingresa nombre del jugador: {{Juego.Jugador2.Estrategia}}
 
-                            </p>
-                            <BR />
-                            <input type="text" class="form-control  "  placeholder="Jugador o"
-                                    maxlength="22"
-                                   oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" />
-
-                        </div>
-                    </div>
                     <div>
 
                         <br />
