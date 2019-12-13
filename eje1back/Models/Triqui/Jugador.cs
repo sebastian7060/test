@@ -10,8 +10,8 @@ namespace eje1back.Models.Triqui
         public Nullable<int> IdJugador { get; set; }
         public string Nombre { get; set; }
         public string Estrategia { get; set; }
-        public int Fila { get; set; }
-        public int Columna { get; set; }
+        public Nullable<int> Fila { get; set; }
+        public Nullable<int> Columna { get; set; }
         public Nullable<int>Puntos { get; set; }
         public Nullable<bool> FinTurno { get; set; }
        

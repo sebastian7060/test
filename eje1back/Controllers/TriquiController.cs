@@ -14,7 +14,7 @@ namespace eje1back.Controllers
         static List<Juego> listaJuegos = new List<Juego>();
         static int idJugador = 0;
         static int idPartida = 0;
-        Juego juego = new Juego();
+         Juego juego = new Juego();
 
         // Post: api/Triqui/CrearPartida
         /// <summary>
@@ -63,6 +63,17 @@ namespace eje1back.Controllers
             return consultaJuego;
         }
 
+        [Route("api/Triqui/realizarJugada/")]
+        public dynamic PostConsultarTodoElJuego
+            ([FromBody]int Fila, [FromBody]int Columna, [FromBody]int IdJugador, [FromBody]string Estrategia, [FromBody] int IdPartida )
+        {
+            
+            var consultaJuego =
+                 listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
+            consultaJuego.Tablero[Fila,Columna] =Estrategia ;
+
+            return consultaJuego;
+        }
 
 
 

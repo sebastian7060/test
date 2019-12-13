@@ -17,4 +17,5 @@ namespace eje1back.Models.Triqui
         public Acomulado Acumulado { get; set; }
         public string Mensaje { get; set; }
     }
+
 }
