@@ -8,7 +8,7 @@ namespace eje1back.Models.Triqui
     public class Juego
     {
         public Nullable<int> IdPartida { get; set; }
-        public string[,] Tablero { get; set; }
+        public CamposTablero[,] Tablero { get; set; }
         public Nullable <bool> EnCurso { get; set; }
         public string EstadoJuego { get; set; }
         public string Turno { get; set; }

@@ -2,14 +2,14 @@
 var app = angular.module("Juego");
 app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
     //declaracion de variables y objeros
-    $scope.nuemeroPosiciones = 3;
+    $scope.numeroPosiciones = 3;
     $scope.fila = 0;
     $scope.TipoBloqueo = { Juego: false, Nombres: true, Mensaje: false, Mensaje1: false };
 
     //Es el juego que se va a realizar en la partida
     $scope.Juego;
     $scope.miJuego;
-    $scope.JuegoOponente;
+    $scope.posicionTablero;
 
     /*
      * inicia las funciones para comensar el juego
@@ -21,8 +21,6 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
         $scope.Juego = $scope.crearPartida();
         $scope.crearTablero();
     }
-
-
 
     /*
      * crea la partida para el juego 
@@ -44,7 +42,6 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
 
     }
 
-
     /*
      * Crea los jugadores para el juego piedra papel o tijera
      * @param {any} nombre
@@ -57,7 +54,8 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
             IdJugador: 0,
             Nombre: Nombre,
             Estrategia: Estrategia,
-            Puntos: 0
+            Puntos: 0,
+            FinTurno: true
         };
     }
 
@@ -68,20 +66,13 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
         //limpiar variables
         $scope.Juego.Tablero = [];
         //crea campos vertical
-        for (var i = 0; i < $scope.nuemeroPosiciones; i++) {
+        for (var i = 0; i < $scope.numeroPosiciones; i++) {
             var Columna = { Columna: i, Fila: [] };
             $scope.Juego.Tablero.push(Columna);
             //crea campos horizontales 
-            for (var j = 0; j < $scope.nuemeroPosiciones; j++)
+            for (var j = 0; j < $scope.numeroPosiciones; j++)
                 Columna.Fila.push({ PosFila: j, Columna: i, Valor: "", Alerta: "", Canvas: "fila" + j + "_colmna" + i });
         }
-    }
-
-    /*
-     * recorre el tablero para verificar si hay triqui
-     */
-    $scope.validarTriqui = function () {
-
     }
 
     /**
@@ -124,83 +115,75 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
         Celda = 0;
     }
 
-
-    /*
-     * cambia el turno para que el otro jugador pueda jugar y le da valor a la seccion del  tablero
-     */
-    $scope.asignarJuego = function () {
-
-        // cambia el turno 
-        if ($scope.Juego.Turno == "x")
-            $scope.Juego.Turno = "o";
-
-        else if ($scope.Juego.Turno == "o")
-            $scope.Juego.Turno = "x";
-    }
-
     /*
      * marca la casilla donde hay juego 
      */
     $scope.marcarJuego = function (y) {
-
-        /////
-        $scope.Juego.Jugador.Fila = y.Columna;
-        $scope.Juego.Jugador.Columna = y.PosFila;
-
-        //////
-
+        $scope.recargarJugadores();
+        $scope.posicionTablero = { PosFila: 0, Columna: 0, Valor: "", Alerta: "", Canvas: "" };
         // valida si tiene valor a la seccion del  tablero
-        if (y.Valor == "") {
+        if ($scope.Juego.Jugador.FinTurno)
+            if (y.Valor == "") {
 
-            // valida si otro jugador ya gano si no  cambia el trurno
-            if ($scope.Juego.EstadoJuego == "Gano")
-                y.Valor = "";
+                // valida si otro jugador ya gano si no  cambia el trurno
+                if ($scope.Juego.EstadoJuego == "Gano") {
+                    y.Valor = "";
 
-            else {
+                }
+                else {
 
-                ////
+                    ////
 
-                $http({
-                    url: 'http://localhost:62384/api/Triqui/realizarJugada/',
-                    method: 'POST',
-                    data: {
-                        Fila: $scope.Jugador.Fila,
-                        Columna: $scope.Jugador.Columna,
-                        IdJugador: $scope.Jugador.IdJugador,
-                        Estrategia: $scope.Jugador.Estrategia,
-                        IdPartida: $scope.Jugador.Idpartida
-                    },
-                }).
-                    then(
-                        function (dataResult) {
+                    $http({
+                        url: 'http://localhost:62384/api/Triqui/realizarJugada/' + $scope.Juego.Idpartida,
+                        method: 'POST',
+                        data: y,
+                    }).
+                        then(
+                            function (dataResult) {
 
-                            console.log("envio jugador satisfactoria", dataResult);
-                        },
-                        function (error) {
-                            console.log("error envio jugador ", error);
-                        })
-                ////
+                                $scope.Juego.Tablero[dataResult.data.PosFila].Fila[dataResult.data.Columna].Valor = dataResult.data.Valor;
+                                console.log("envio jugador satisfactoria", dataResult.data);
 
+                                var c = document.getElementById(dataResult.data.Canvas);
+                                var Canvas = c.getContext("2d");
+                                Canvas.font = "150px  Comic Sans MS";
+                                Canvas.fillStyle = "#00d8a6";
+                                Canvas.fillText(dataResult.data.Valor, 90, 90);
+                                $scope.recargarJugadores();
 
-                //if ($scope.juego.jugador1.modoDeJuego == "dos jugadores") {
-                //texto de canvas
-                var c = document.getElementById(y.Canvas);
-                var Canvas = c.getContext("2d");
-                Canvas.font = "150px  Comic Sans MS";
-                Canvas.fillStyle = "#00d8a6";
-                Canvas.fillText($scope.Juego.Turno, 90, 90);
+                            },
+                            function (error) {
+                                console.log("error envio jugador ", error);
+                            })
 
-                // da valor a la casilla 
-                y.Valor = $scope.Juego.Turno;
+                    // da valor a la casilla 
+                    y.Valor = $scope.Juego.Jugador.Estrategia;
 
-                $scope.validarTriqui();
-                //$scope.desbloquear();
-                $scope.asignarJuego();
+                    //$scope.validarTriqui();
+                    //$scope.desbloquear();
+
+                }
+            }
+    }
+
+    $scope.marcarCanvas = function () {
+        //texto de canvas
+        console.log($scope.posicionTablero);
+        for (var i = 0; i < $scope.numeroPosiciones; i++) {
+
+            for (var j = 0; j < $scope.numeroPosiciones; j++) {
+                console.log($scope.posicionTablero[i]);
+                if ($scope.posicionTablero[i][j] != null) {
+                    var c = document.getElementById($scope.posicionTablero[i][j].Canvas);
+                    var Canvas = c.getContext("2d");
+                    Canvas.font = "150px  Comic Sans MS";
+                    Canvas.fillStyle = "#00d8a6";
+                    Canvas.fillText($scope.posicionTablero[i][j].Valor, 90, 90);
+
+                }
             }
         }
-
-
-
     }
 
 
@@ -217,54 +200,9 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
 
 
     /*
-     * suma puntos a un jugador cuando hay triqui
-     */
-    $scope.sumarPuntos = function () {
-    }
-    /*
-     * bloquea y desbloquea el juego seguen el caso 
-     */
-    $scope.desbloquear = function () {
-        console.log("losls");
-        if ($scope.Juego.Jugador1.Nombre && $scope.Juego.Jugador1.Nombre) {
-            if ($scope.Juego.Jugador1.Nombre == $scope.Juego.Jugador1.Nombre) {
-                $scope.TipoBloqueo.Mensaje1 = true;
-                $scope.TipoBloqueo.Mensaje = false;
-            }
-            else {
-                $scope.TipoBloqueo.Mensaje1 = false;
-                $scope.TipoBloqueo.Nombres = false;
-                $scope.TipoBloqueo.Juego = true;
-                $scope.TipoBloqueo.Mensaje = false;
-            }
-        }
-        else {
-            $scope.TipoBloqueo.Mensaje = true;
-            $scope.TipoBloqueo.Mensaje1 = false;
-        }
-        if ($scope.Juego.EstadoJuego == "Gano")
-            $scope.Juego.Mensaje = $scope.Juego.EstadoJuego + " " + $scope.Juego.Mensaje;
-
-        else
-            // valida si hay un empate
-            var a = 0;
-        for (var i = 0; i < $scope.nuemeroPosiciones; i++)
-            for (var j = 0; j < $scope.nuemeroPosiciones; j++)
-                if ($scope.Juego.Tablero[i].Fila[j].Valor != "") {
-                    a = a + 1;
-                    if (a == 9) {
-                        $scope.Juego.EstadoJuego == "empate";
-                        $scope.Juego.Mensaje = " Es un empate";
-                    }
-                }
-
-    }
-
-    /*
      * crea el jugador 
      */
     $scope.crearJugadorback = function () {
-
 
         $http({
             url: 'http://localhost:62384/api/Triqui/Crearjugador/',
@@ -273,21 +211,20 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
         }).
             then(
                 function (dataResult) {
-
+                    $scope.Juego.Idpartida = dataResult.data.IdPartida;
+                    $scope.Juego.Jugador1 = dataResult.data.Jugador1;
+                    $scope.Juego.Jugador2 = dataResult.data.Jugador2;
                     if (dataResult.data && dataResult.data.Jugador1 && dataResult.data.Jugador1.IdJugador && dataResult.data.Jugador2 == null) {
                         $scope.Juego.Jugador = dataResult.data.Jugador1;
-
-                        $scope.Juego.Jugador1 = dataResult.data.Jugador1;
                     }
                     else {
                         $scope.Juego.Jugador = dataResult.data.Jugador2;
-                        $scope.Juego.Jugador2 = dataResult.data.Jugador2;
+
+
                     }
 
-                    $scope.buscarJugador();
-
+                    $scope.recargarJugadores();
                     var a = 0;
-                    $scope.Juego.Idpartida = dataResult.data.IdPartida;
 
 
                 },
@@ -297,45 +234,67 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
     }
     $scope.buscarJugador = function () {
 
-
         $timeout(function () {
-            //console.log($scope.Juego.Jugador.IdJugador, $scope.Juego.Jugador1.IdJugador && $scope.Juego.Jugador2 == null);
-            //if ($scope.Juego.Jugador.IdJugador == $scope.Juego.Jugador1.IdJugador && $scope.Juego.Jugador2 == null)
-            $scope.recargarDatosJugadoresBack();
+
+            console.log($scope.Juego.Jugador1.Nombre);
+            $scope.recargarJugadores();
+
         }, 2000);
     }
+
     /*
      *recarga los datos de bak cada determidado tiempo
      */
-    $scope.recargarDatosJugadoresBack = function () {
+    $scope.recargarJugadores = function () {
         $http({
             method: "GET",
             url: "http://localhost:62384/api/Triqui/Consultar/" + $scope.Juego.Idpartida,
         }).then(
             function (dataResult) {
+                console.log(dataResult.data.Tablero);
+                $scope.posicionTablero = dataResult.data.Tablero;
+
                 if ($scope.Juego.Jugador.IdJugador == dataResult.data.Jugador1.IdJugador) {
+                    $scope.Juego.Jugador = dataResult.data.Jugador1;
                     $scope.Juego.Jugador2 = dataResult.data.Jugador2;
-                    if ($scope.Juego.Jugador2 == null)
-                        $scope.buscarJugador();
+                    $scope.Juego.Jugador1 = dataResult.data.Jugador1;
+
                 }
                 else if ($scope.Juego.Jugador.IdJugador == dataResult.data.Jugador2.IdJugador) {
+                    $scope.Juego.Jugador = dataResult.data.Jugador2;
                     $scope.Juego.Jugador1 = dataResult.data.Jugador1;
-                    if ($scope.Juego.Jugador1.FinTurno == false)
-                        $scope.buscarJugador();
+                    $scope.Juego.Jugador2 = dataResult.data.Jugador2;
+
+                }
+                if ($scope.Juego.Jugador.FinTurno == false)
+                    $scope.buscarJugador();
+                else {
+
+                    $scope.marcarCanvas()
                 }
 
 
-                //if ($scope.Juego.Jugador.Nombre == dataResult.data.Jugador1.Nombre)
-                //    $scope.Juego.Jugador1.IdJugador = dataResult.data.Jugador1.Id;
-                //else if ($scope.Juego.Jugador.Nombre == dataResult.data.Jugador2.Nombre)
-                //    $scope.Juego.Jugador2.IdJugador = dataResult.data.Jugador2.Id;
-                //console.log("error actualizar  envio juego ", dataResult);
+
+
+
             },
             function (error) {
                 console.log("error actualizar  envio juego ");
             });
     }
 
+    //$scope.consultarTurno = function () {
+    //    $http({
+    //        method: "GET",
+    //        url: "http://localhost:62384/api/Triqui/Consultar/" + $scope.Juego.Idpartida,
+    //    }).then(
+    //        function (dataResult) {
+    //            $scope.posicionTablero = dataResult.data.Tablero;
+    //        },
+    //        function (error) {
+    //            console.log("error actualizar  envio juego ");
+    //        });
+    //}
 
 
     $scope.init();

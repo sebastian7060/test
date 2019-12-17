@@ -43,7 +43,7 @@
                     </div>
                     <!--ng-click="desbloquear()"-->
                     <button type="submit" class="btn btn-primary mb-2 " ng-click="crearJugadorback()">Jugar</button>
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="recargarDatosBack()">aaaaaa</button>
+                    <button type="submit" class="btn btn-primary mb-2 " ng-click="recargarJugadores()">aaaaaa</button>
                 </div>
                 <!--ng-show="TipoBloqueo.Mensaje"-->
                 <i> Ambos jugadores deben de tener un nombre </i>
@@ -84,7 +84,7 @@
 
             <div>
                 <p class="puntos">Turno  </p>
-                <p class="puntosMasgrande">{{Juego.Turno}}</p>
+                <p class="puntosMasgrande">{{Juego.Jugador.Estrategia}}</p>
             </div>
 
             <!-- tablero del juego -->
@@ -94,13 +94,16 @@
                     <div class="table2">
                         <table class="table table-bordered  ">
                             <tr ng-repeat="x in Juego.Tablero">
-                                <td ng-repeat="y in x.Fila">
+                                <td  ng-repeat="y in x.Fila">
 
-                                    <div class="caja" ng-click="marcarJuego(y)">
-                                        <div class="letra" ng-model="y.Valor">
+                                    <div  class="caja" ng-click="marcarJuego(y)">
+                           
+                                            <div class="letra" ng-model="y.Valor">
+                                                <canvas style=" z-index: -1;" id="{{y.Canvas}}" width="250" height="100" ng-model="y.Canvas" ng-change="y.Canvas"></canvas>
+                                            </div>
+                                   
 
-                                            <canvas id="{{y.Canvas}}" width="250" height="100" ng-model="y.Canvas" ng-change="y.Canvas"></canvas>
-                                        </div>
+
                                     </div>
 
                                 </td>

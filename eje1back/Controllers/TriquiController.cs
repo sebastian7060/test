@@ -14,11 +14,11 @@ namespace eje1back.Controllers
         static List<Juego> listaJuegos = new List<Juego>();
         static int idJugador = 0;
         static int idPartida = 0;
-         Juego juego = new Juego();
+        Juego juego = new Juego();
 
         // Post: api/Triqui/CrearPartida
         /// <summary>
-        /// crear los jugadores Y le asigna si es jugador1 o jugador2 
+        /// crea la partida para los jugadores
         /// </summary>
         /// <param name="jugador"></param>
         /// <returns></returns>
@@ -37,42 +37,55 @@ namespace eje1back.Controllers
                 juego.EnCurso = true;
                 juego.Jugador1.FinTurno = false;
                 //le da las dimenciones al tablero 
-                juego.Tablero = new string[3, 3];
+                juego.Tablero = new CamposTablero[3, 3];
                 listaJuegos.Add(juego);
                 return juego;
             }
             else
             {
                 partidaDisponible.Jugador2 = jugador;
-                partidaDisponible.Jugador2.Estrategia = "O";
+                partidaDisponible.Jugador2.Estrategia = "o";
                 partidaDisponible.Jugador2.FinTurno = true;
                 return partidaDisponible;
             }
-            
         }
 
         /// <summary>
-        ///  CONSULTA TODO EL JUEGO
+        /// consulta la informacion de los juagdores de una partida espesifica
         /// </summary>
+        /// <param name="idPartida"></param>
         /// <returns></returns>
         [Route("api/Triqui/Consultar/{idPartida}")]
-        public dynamic GetConsultarTodoElJuego(int idPartida)
+        public dynamic GetConsultarJugadores(int idPartida)
         {
             var consultaJuego =
                  listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
             return consultaJuego;
         }
 
-        [Route("api/Triqui/realizarJugada/")]
+        /// <summary>
+        /// trae el campo marcado por el jugador 
+        /// </summary>
+        /// <param name="camposTablero"></param>
+        /// <returns></returns>
+        [Route("api/Triqui/realizarJugada/{idPartida}")]
         public dynamic PostConsultarTodoElJuego
-            ([FromBody]int Fila, [FromBody]int Columna, [FromBody]int IdJugador, [FromBody]string Estrategia, [FromBody] int IdPartida )
+            ([FromBody] CamposTablero camposTablero)
         {
-            
             var consultaJuego =
                  listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
-            consultaJuego.Tablero[Fila,Columna] =Estrategia ;
-
-            return consultaJuego;
+            consultaJuego.Tablero[camposTablero.Columna, camposTablero.PosFila] = camposTablero;
+            if (consultaJuego.Jugador1.FinTurno == true)
+            {
+                consultaJuego.Jugador1.FinTurno = false;
+                consultaJuego.Jugador2.FinTurno = true;
+            }
+            else
+            {
+                consultaJuego.Jugador1.FinTurno = true;
+                consultaJuego.Jugador2.FinTurno =  false;
+            }
+            return camposTablero;
         }
 
 

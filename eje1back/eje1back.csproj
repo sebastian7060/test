@@ -96,6 +96,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Triqui\Acomulado.cs" />
+    <Compile Include="Models\Triqui\CamposTablero.cs" />
     <Compile Include="Models\Triqui\Juego.cs" />
     <Compile Include="Models\Triqui\Jugador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
