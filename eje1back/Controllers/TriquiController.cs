@@ -85,6 +85,7 @@ namespace eje1back.Controllers
                 consultaJuego.Jugador1.FinTurno = true;
                 consultaJuego.Jugador2.FinTurno =  false;
             }
+
             return camposTablero;
         }
 
