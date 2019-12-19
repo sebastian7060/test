@@ -14,6 +14,11 @@ namespace eje1back.Controllers
         static List<Juego> listaJuegos = new List<Juego>();
         static int idJugador = 0;
         static int idPartida = 0;
+        public Jugador Maquina = new Jugador();
+        public Acomulado acomulado = new Acomulado();
+
+
+
         Juego juego = new Juego();
 
         // Post: api/Triqui/CrearPartida
@@ -35,6 +40,7 @@ namespace eje1back.Controllers
                 juego.IdPartida = idPartida;
                 juego.Jugador1 = jugador;
                 juego.EnCurso = true;
+                juego.Jugador1.Estrategia = "x";
                 juego.Jugador1.FinTurno = false;
                 //le da las dimenciones al tablero 
                 juego.Tablero = new CamposTablero[3, 3];
@@ -72,24 +78,82 @@ namespace eje1back.Controllers
         public dynamic PostConsultarTodoElJuego
             ([FromBody] CamposTablero camposTablero)
         {
+            acomulado.Columna = "";
             var consultaJuego =
-                 listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
+                listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
             consultaJuego.Tablero[camposTablero.Columna, camposTablero.PosFila] = camposTablero;
-            if (consultaJuego.Jugador1.FinTurno == true)
+            if (consultaJuego.Maquina == false)
             {
-                consultaJuego.Jugador1.FinTurno = false;
-                consultaJuego.Jugador2.FinTurno = true;
+                if (consultaJuego.Jugador1.FinTurno == true)
+                {
+                    consultaJuego.Jugador1.FinTurno = false;
+                    consultaJuego.Jugador2.FinTurno = true;
+                }
+                else
+                {
+                    consultaJuego.Jugador1.FinTurno = true;
+                    consultaJuego.Jugador2.FinTurno = false;
+                }
+                return camposTablero;
             }
             else
             {
+                Random rango = new Random();
+                int fila = 0;
+                int columna = 0;
+
+                while (consultaJuego.Jugador1.FinTurno == true)
+                {
+                    fila = rango.Next(0, 3);
+                    columna = rango.Next(0, 3);
+                    if (consultaJuego.Tablero[fila, columna] == null && consultaJuego.Jugador1.FinTurno == true)
+                    {
+                        consultaJuego.Tablero[fila, columna] = new CamposTablero();
+                        consultaJuego.Tablero[fila, columna].Valor = "o";
+                        consultaJuego.Jugador1.FinTurno = false;
+                    }
+                }
                 consultaJuego.Jugador1.FinTurno = true;
-                consultaJuego.Jugador2.FinTurno =  false;
+
+
+                return camposTablero;
             }
 
-            return camposTablero;
         }
 
+        // Post: api/Triqui/CrearPartida
+        /// <summary>
+        /// activa la maquina para poder jugar 
+        /// </summary>
+        /// <param name="jugador"></param>
+        /// <returns></returns>
+        [Route("api/Triqui/activarMaquina/{idPartida}")]
+        public dynamic PostActivarMaquinar([FromBody] bool maquina, int idPartida)
+        {
+            idJugador++;
+            var consultaJuego =
+                             listaJuegos.Where(lj => lj.IdPartida == idPartida).FirstOrDefault();
+            consultaJuego.Maquina = maquina;
+            consultaJuego.Jugador1.FinTurno = true;
+            consultaJuego.Jugador2 = new Jugador()
+            {
+                Nombre = "maquina",
+                IdJugador = idJugador,
+                Estrategia = "o",
+                FinTurno = false
 
+            };
+
+
+            return consultaJuego;
+        }
+
+        public void RealizarJugadaMaquina()
+        {
+
+
+
+        }
 
     }
 }

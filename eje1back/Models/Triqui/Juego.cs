@@ -16,6 +16,7 @@ namespace eje1back.Models.Triqui
         public Jugador Jugador2 { get; set; }
         public Acomulado Acumulado { get; set; }
         public string Mensaje { get; set; }
+        public bool Maquina { get; set; }
     }
 
 }
