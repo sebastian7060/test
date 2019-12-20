@@ -40,6 +40,7 @@ body {
     color: #286090;
 }
 
+
 @media screen and (min-width: 78px) {
     .navbar-default .navbar-toggle {
         border-color: #00d8a6;
@@ -83,6 +84,9 @@ body {
         float: left;
         width: 50%;
         height: 10%;
+    }
+    .aa {
+        height: 10em;
     }
 
     .dividir {
@@ -167,8 +171,13 @@ body {
     }
 
     .caja1 {
+        padding-left:9em;
+        padding-right:9em;
         text-align: center;
         width: 100%;
+    }
+    .bb {
+        width: 9em;
     }
 
     .navbar-default .navbar-nav > li > a {

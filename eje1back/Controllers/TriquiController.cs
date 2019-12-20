@@ -283,7 +283,7 @@ namespace eje1back.Controllers
         /// <param name="jugador"></param>
         /// <returns></returns>
         [Route("api/Triqui/activarMaquina/{idPartida}")]
-        public dynamic PostActivarMaquinar([FromBody] bool maquina, int idPartida)
+        public dynamic PostActivarMaquina([FromBody] bool maquina, int idPartida)
         {
             idJugador++;
             var consultaJuego =

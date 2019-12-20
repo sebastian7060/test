@@ -9,13 +9,7 @@
 
     <!-- juego -->
     <div>
-        juego.Jugador1.IdJugador
-        {{Juego.Jugador1.IdJugador}}<br />
-        juego.Jugador2.IdJugador
-        {{Juego.Jugador2.IdJugador}}<br />
-        Idpartida
-        {{Juego.Idpartida}}<br />
-        <!-- ingresar nombres jugadores-->
+
         <div ng-model="Juego">
             <br />
 
@@ -43,102 +37,72 @@
                     </div>
                     <!--ng-click="desbloquear()"-->
                     <button type="submit" class="btn btn-primary mb-2 " ng-click="crearJugadorback()">Jugar</button>
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="recargarJugadores()">aaaaaa</button>
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="activarMaquina()">maquina</button>
+                    <!--<button type="submit" class="btn btn-primary mb-2 " ng-click="activarMaquina()">maquina</button>-->
 
                 </div>
-                <!--ng-show="TipoBloqueo.Mensaje"-->
-                <i> Ambos jugadores deben de tener un nombre </i>
-                <!--ng-show="TipoBloqueo.Mensaje1"-->
-                <i> Los jugadores deben de tener nombres distintos</i>
+
             </form>
         </div>
         <!--ng-show="TipoBloqueo.Juego"-->
-        <div>
-            <div ng-model="Juego">
-                <div class="a dividir">
+        <!--turno-->
 
-                    <br />
-                    <p class="puntos">
-                        Puntos de {{Juego.Jugador1.Nombre}}
-                    </p>
-                    <p class="puntosMasgrande">
-                        {{Juego.Jugador1.Puntos}}
-                    </p>
-
-                </div>
-                <div class="a dividir">
-                    <br />
-                    <p class="puntos">
-                        Puntos de {{Juego.Jugador2.Nombre}}
-
-                    </p>
-                    <p class="puntosMasgrande">
-                        {{Juego.Jugador2.Puntos}}
-                    </p>
-
-
-                </div>
-
-            </div>
-
-            <!--turno-->
-
-            <div>
+        <div class="aa">
+            <div class="a">
                 <p class="puntos">Turno  </p>
                 <p class="puntosMasgrande">{{Juego.Jugador.Estrategia}}</p>
-                <p class="puntos">Turno  </p>
-                <p class="puntosMasgrande">{{Juego.Jugador.Estrategia}}</p>
-                <p class="puntos">tiempo del turno  </p>
-                <p class="puntosMasgrande">{{tiempo.Turno}}</p>
-                <p class="puntos">Tiempo buscar jugador  </p>
-                <p class="puntosMasgrande">{{tiempo.BuscarJugador}}</p>
             </div>
-
-            <!-- tablero del juego -->
-            <div>
-
-                <div class="tab ">
-                    <div class="table2">
-                        <table class="table table-bordered  ">
-                            <tr ng-repeat="x in Juego.Tablero">
-                                <td  ng-repeat="y in x.Fila">
-
-                                    <div  class="caja" ng-click="marcarJuego(y)">
-                           
-                                            <div class="letra" ng-model="y.Valor">
-                                                <canvas style=" z-index: -1;" id="{{y.Canvas}}" width="250" height="100" ng-model="y.Canvas" ng-change="y.Canvas"></canvas>
-                                            </div>
-                                   
-
-
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+            <div class="a">
+                <div>
+                    <p class="puntos">tiempo del turno  </p>
+                    <p class="puntosMasgrande">{{tiempo.Turno}}</p>
+                </div>
+                <div>
+                    <p class="puntos">Tiempo buscar jugador  </p>
+                    <p class="puntosMasgrande">{{tiempo.BuscarJugador}}</p>
+                </div>
+                <div>
                 </div>
             </div>
-
-            <!--botones de jugar de nuevo y nueva partida-->
-            <form class="form-inline">
-
-                <p class="puntosMasgrande" ng-model="Juego.Mensaje"> {{Juego.Mensaje}}</p>
-                <br />
-                <div class="a form-group mx-sm-3 mb-2">
-                    <button type="submit" class="btn btn-primary mb-2" ng-click="limpiarJuego()">Volver a jugar </button>
-                </div>
-                <div class="a form-group mx-sm-3 mb-2 botonNuevaPartida">
-                    <button type="submit" class=" btn btn-primary mb-2 " ng-click="init()">Nueva partida </button>
-                </div>
-
-            </form>
-
-            <br />
-            <br />
-            <br />
 
         </div>
+        <!-- tablero del juego -->
+        <div>
+            
+            <div class="tab ">
+                <div class="table2">
+                    <table class="table table-bordered  ">
+                        <tr ng-repeat="x in Juego.Tablero">
+                            <td ng-repeat="y in x.Fila">
+
+                                <div class="caja" ng-click="marcarJuego(y)">
+
+                                    <div class="letra" ng-model="y.Valor">
+                                        <canvas style=" z-index: -1;" id="{{y.Canvas}}" width="250" height="100" ng-model="y.Canvas" ng-change="y.Canvas"></canvas>
+                                    </div>
+
+
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--botones de jugar de nuevo y nueva partida-->
+        <form class="form-inline">
+
+            <p class="puntosMasgrande" ng-model="Juego.Mensaje"> {{Juego.Mensaje}}</p>
+            <br />
+            <div class="a form-group mx-sm-3 mb-2 botonNuevaPartida">
+                <button type="submit" class=" btn btn-primary mb-2 " ng-click="init()">Nueva partida </button>
+            </div>
+        </form>
+        <br />
+        <br />
+        <br />
     </div>
 </div>
+    
