@@ -260,7 +260,7 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
                 // da valor a la casilla 
                 y.Valor = $scope.Juego.Jugador.Estrategia;
                 $http({
-                    url: 'http://localhost:62384/api/Triqui/realizarJugada/' + $scope.Juego.Idpartida,
+                    url: 'http://localhost:62384/api/Triqui/realizarJugada/' + $scope.Juego.Idpartida ,
                     method: 'POST',
                     data: y,
                 }).

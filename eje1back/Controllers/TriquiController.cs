@@ -101,24 +101,179 @@ namespace eje1back.Controllers
                 Random rango = new Random();
                 int fila = 0;
                 int columna = 0;
+                acomulado.DiagonalDerecha = "";
+                acomulado.Diagonalizquierda = "";
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                while (consultaJuego.Jugador1.FinTurno == true)
+                for (var i = 0; i < 3; i++)
                 {
-                    fila = rango.Next(0, 3);
-                    columna = rango.Next(0, 3);
-                    if (consultaJuego.Tablero[fila, columna] == null && consultaJuego.Jugador1.FinTurno == true)
+                    //    if (consultaJuego.Jugador1.FinTurno == true)
+                    //    {
+                    if (consultaJuego.Tablero[i, i] != null)
+                        acomulado.DiagonalDerecha += consultaJuego.Tablero[i, i].Valor;
+
+                    if (consultaJuego.Tablero[2 - i, i] != null)
+                        acomulado.Diagonalizquierda += consultaJuego.Tablero[2 - i, i].Valor;
+                    for (var j = 0; j < 3; j++)
                     {
-                        consultaJuego.Tablero[fila, columna] = new CamposTablero();
-                        consultaJuego.Tablero[fila, columna].Valor = "o";
+                        if (consultaJuego.Tablero[i, j] != null && consultaJuego.EstadoJuego != "Gano")
+                            acomulado.Fila += consultaJuego.Tablero[i, j].Valor;
+
+                        if (consultaJuego.Tablero[j, i] != null && consultaJuego.EstadoJuego != "Gano")
+                            acomulado.Columna += consultaJuego.Tablero[j, i].Valor;
+
+
+
+                        if (acomulado.Fila == "xxx" || acomulado.Columna == "xxx")
+                        {
+                            consultaJuego.EstadoJuego = "Gano";
+                            consultaJuego.Mensaje = consultaJuego.Jugador1.Nombre;
+
+                        }
+
+                        //valida si hay triqui en la columna o filas por el jugador 2
+                        else if (acomulado.Fila == "ooo" || acomulado.Columna == "ooo")
+                        {
+                            consultaJuego.EstadoJuego = "Gano";
+                            consultaJuego.Mensaje = consultaJuego.Jugador2.Nombre;
+
+                        }
+
+                        else
+                        {
+
+                            acomulado.Fila = "";
+                            acomulado.Columna = "";
+                        }
+
+                    }
+
+
+                }
+
+
+                //valida si hay triqui en la diagonal por el jugador 1
+                if (acomulado.DiagonalDerecha == "xxx" || acomulado.Diagonalizquierda == "xxx")
+                {
+                    consultaJuego.EstadoJuego = "Gano";
+                    consultaJuego.Mensaje = consultaJuego.Jugador1.Nombre;
+                }
+
+                //valida si hay triqui en la diagonal por el jugador 2
+                else if (acomulado.DiagonalDerecha == "ooo" || acomulado.Diagonalizquierda == "ooo")
+                {
+                    consultaJuego.EstadoJuego = "Gano";
+                    consultaJuego.Mensaje = consultaJuego.Jugador2.Nombre;
+                }
+
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                acomulado.DiagonalDerecha = "";
+                acomulado.Diagonalizquierda = "";
+                acomulado.Fila = "";
+                acomulado.Columna = "";
+
+                if (consultaJuego.EstadoJuego != "Gano")
+                {
+                    for (var i = 0; i < 3; i++)
+                    {
+                        if (consultaJuego.Jugador1.FinTurno == true)
+                        {
+                            if (consultaJuego.Tablero[i, i] != null)
+                                acomulado.DiagonalDerecha += consultaJuego.Tablero[i, i].Valor;
+
+                            if (consultaJuego.Tablero[2 - i, i] != null)
+                                acomulado.Diagonalizquierda += consultaJuego.Tablero[2 - i, i].Valor;
+                        }
+
+                        //recorre la columna y filas
+                        for (var j = 0; j < 3; j++)
+                        {
+                            if (consultaJuego.Tablero[i, j] != null)
+                                acomulado.Fila += consultaJuego.Tablero[i, j].Valor;
+
+                            if (consultaJuego.Tablero[j, i] != null)
+                                acomulado.Columna += consultaJuego.Tablero[j, i].Valor;
+
+
+                            if (acomulado.Fila == "xx" || acomulado.Fila == "oo")
+                                for (var k = 0; k < 3; k++)
+                                {
+                                    if (consultaJuego.Tablero[i, k] == null && consultaJuego.Jugador1.FinTurno != false)
+                                    {
+                                        consultaJuego.Jugador1.FinTurno = false;
+                                        consultaJuego.Tablero[i, k] = new CamposTablero();
+                                        consultaJuego.Tablero[i, k].Valor = "o";
+                                    }
+                                }
+                            else if (acomulado.Columna == "xx" || acomulado.Columna == "oo")
+                                for (var k = 0; k < 3; k++)
+                                {
+                                    if (consultaJuego.Tablero[k, i] == null && consultaJuego.Jugador1.FinTurno != false)
+                                    {
+                                        consultaJuego.Jugador1.FinTurno = false;
+                                        consultaJuego.Tablero[k, i] = new CamposTablero();
+                                        consultaJuego.Tablero[k, i].Valor = "o";
+                                    }
+                                }
+
+
+                        }
+
+                        acomulado.Fila = "";
+                        acomulado.Columna = "";
+                    }
+
+                    if (acomulado.DiagonalDerecha == "xx" || acomulado.DiagonalDerecha == "oo")
+                        for (var k = 0; k < 3; k++)
+                        {
+                            if (consultaJuego.Tablero[k, k] == null && consultaJuego.Jugador1.FinTurno != false)
+                            {
+                                consultaJuego.Jugador1.FinTurno = false;
+                                consultaJuego.Tablero[k, k] = new CamposTablero();
+                                consultaJuego.Tablero[k, k].Valor = "o";
+                            }
+                        }
+                    else if (acomulado.Diagonalizquierda == "xx" || acomulado.Diagonalizquierda == "oo")
+                        for (var k = 0; k < 3; k++)
+                        {
+                            if (consultaJuego.Tablero[2 - k, k] == null && consultaJuego.Jugador1.FinTurno != false)
+                            {
+                                consultaJuego.Jugador1.FinTurno = false;
+                                consultaJuego.Tablero[2 - k, k] = new CamposTablero();
+                                consultaJuego.Tablero[2 - k, k].Valor = "o";
+                            }
+                        }
+
+
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+                    if (consultaJuego.Tablero[1, 1] == null)
+                    {
+                        consultaJuego.Tablero[1, 1] = new CamposTablero();
+                        consultaJuego.Tablero[1, 1].Valor = "o";
                         consultaJuego.Jugador1.FinTurno = false;
                     }
+                    else
+                    {
+                        while (consultaJuego.Jugador1.FinTurno == true)
+                        {
+                            fila = rango.Next(0, 3);
+                            columna = rango.Next(0, 3);
+                            if (consultaJuego.Tablero[fila, columna] == null && consultaJuego.Jugador1.FinTurno == true)
+                            {
+                                consultaJuego.Tablero[fila, columna] = new CamposTablero();
+                                consultaJuego.Tablero[fila, columna].Valor = "o";
+                                consultaJuego.Jugador1.FinTurno = false;
+                            }
+                        }
+                    }
                 }
-                consultaJuego.Jugador1.FinTurno = true;
 
-
-                return camposTablero;
             }
 
+            consultaJuego.Jugador1.FinTurno = true;
+            return camposTablero;
         }
 
         // Post: api/Triqui/CrearPartida
