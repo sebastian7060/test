@@ -3,7 +3,7 @@ var app = angular.module("Juego");
 app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
 
     //declaracion de variables y objeros
-   
+
     $scope.fila = 0;
     $scope.numeroPosiciones = 3;
     $scope.TipoBloqueo = { Juego: false, Nombres: true, Mensaje: false, Mensaje1: false };
@@ -15,7 +15,7 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
      * inicia las funciones para comensar el juego
      */
     $scope.init = function () {
-        $scope.limpiarJugador = angular.copy($scope.crearJugador("", "x", 0));
+        $scope.LimpiarJugador = angular.copy($scope.crearJugador("", "x", 0));
         $scope.TipoBloqueo.Nombres = true;
         $scope.TipoBloqueo.Juego = false;
         $scope.TipoBloqueo.Mensaje = false;
@@ -37,9 +37,9 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
             Turno: "x",
             Jugador: angular.copy($scope.crearJugador("", "x", 0)),
             Jugador1: angular.copy($scope.crearJugador("", "x", 0)),
-            Jugador2: angular.copy($scope.crearJugador("", "o", 0)),
+            Jugador2: angular.copy($scope.crearJugador("", "x", 0)),
             Acumulado: {},
-            Maquina:false
+            Maquina: false
         };
 
     }
@@ -215,7 +215,7 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
      */
     $scope.limpiarJuego = function () {
         $scope.limpiarJugador = $scope.Juego.Jugador;
-        console.log("---"+$scope.limpiarJugador);
+        console.log("---" + $scope.limpiarJugador);
         $scope.fila = 0;
         $scope.crearPartida();
         $scope.Juego.Jugador = $scope.limpiarJugador;
@@ -245,8 +245,8 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
                     $scope.Juego.Mensaje = $scope.Juego.Jugador.Nombre;
                 }
                 else if ($scope.Juego.Jugador2 == null) {
-                   
-                   
+
+
                 }
             }
 
@@ -259,37 +259,39 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
      */
     $scope.marcarJuego = function (y) {
         $scope.recargarJugadores();
-      
+
         // valida si tiene valor a la seccion del  tablero
         if ($scope.Juego.Jugador.FinTurno == true && $scope.JugadaRealizada == false)
             $scope.JugadaRealizada = true;
-            if (y.Valor == "" && $scope.Juego.EstadoJuego != "Gano") {
-                // da valor a la casilla 
-                y.Valor = $scope.Juego.Jugador.Estrategia;
-                $scope.validarTriqui();
-                var c = document.getElementById(y.Canvas);
-                var Canvas = c.getContext("2d");
-                Canvas.font = "150px  Comic Sans MS";
-                Canvas.fillStyle = "#00d8a6";
-                Canvas.fillText(y.Valor, 90, 90);
-                $http({
-                    url: 'http://localhost:62384/api/Triqui/realizarJugada/' + $scope.Juego.Idpartida ,
-                    method: 'POST',
-                    data: y,
-                }).
-                    then(
+        if (y.Valor == "" && $scope.Juego.EstadoJuego != "Gano" && $scope.Juego.Jugador.FinTurno == false) {
+            // da valor a la casilla 
+            y.Valor = $scope.Juego.Jugador.Estrategia;
+            $scope.validarTriqui();
+            var c = document.getElementById(y.Canvas);
+            var Canvas = c.getContext("2d");
+            Canvas.font = "150px  Comic Sans MS";
+            Canvas.fillStyle = "#00d8a6";
+            Canvas.fillText(y.Valor, 90, 90);
+            $http({
+                url: 'http://localhost:62384/api/Triqui/realizarJugada/' + $scope.Juego.Idpartida,
+                method: 'POST',
+                data: y,
+            }).
+                then(
                     function (dataResult) {
-                      
-                            $scope.recargarJugadores();
-                            $scope.tiempo.Turno = 30;
-                          
-                            console.log("---",dataResult);
-                        },
-                        function (error) {
-                            console.log("error envio jugador ", error);
+
+                        $scope.recargarJugadores();
+                        $scope.tiempo.Turno = 30;
+
+                        console.log("---", dataResult);
+                    },
+                    function (error) {
+                        console.log("error envio jugador ", error);
                     })
 
-            }
+        }
+
+        console.log($scope.Juego.Jugador.FinTurno);
     }
 
     /*
@@ -298,7 +300,7 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
     $scope.crearJugadorback = function () {
         $http({
             url: 'http://localhost:62384/api/Triqui/Crearjugador/',
-        
+
             method: 'POST',
             data: $scope.Juego.Jugador,
         }).
@@ -329,6 +331,7 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
             url: "http://localhost:62384/api/Triqui/Consultar/" + $scope.Juego.Idpartida,
         }).then(
             function (dataResult) {
+                console.log(dataResult);
                 for (var i = 0; i < $scope.numeroPosiciones; i++) {
                     for (var j = 0; j < $scope.numeroPosiciones; j++) {
                         if (dataResult.data.Tablero[i][j] != null)
@@ -349,10 +352,10 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
                     $scope.Juego.Jugador2 = dataResult.data.Jugador2;
                 }
 
-                //if ($scope.Juego.Jugador.FinTurno == true)
-                //    $scope.JugadaRealizada == false;
-
                 if ($scope.Juego.Jugador.FinTurno == false)
+                    $scope.JugadaRealizada == false;
+
+                if ($scope.Juego.Jugador.FinTurno == true)
                     $scope.asignarTiempo();
 
                 else {
@@ -368,26 +371,26 @@ app.controller('TriquiOnlineController', function ($scope, $http, $timeout) {
     /*
      * envia id del juego para crear el 2 jugador de forma de maquina 
      */
-    $scope.activarMaquina= function () {
+    $scope.activarMaquina = function () {
+        $scope.Juego.Maquina = true;
         console.log($scope.Juego.Maquina);
-        $scope.Juego.Maquina = true; 
         // valida si tiene valor a la seccion del  tablero
-        //if ($scope.Juego.Jugador.FinTurno==)
-                $http({
+        if ($scope.Juego.Jugador.FinTurno==true)
+        $http({
 
-                    url: 'http://localhost:62384/api/Triqui/activarMaquina/' + $scope.Juego.Idpartida,
-                    method: 'POST',
-                    data:  $scope.Juego.Maquina ,
-                }).
-                    then(
-                    function (dataResult) {
-                        console.log(dataResult);
-                        $scope.recargarJugadores();
-                        },
-                        function (error) {
-                            console.log("error envio jugador ", error);
-                        })
-            
+            url: 'http://localhost:62384/api/Triqui/activarMaquina/' + $scope.Juego.Idpartida,
+            method: 'POST',
+            data: $scope.Juego.Maquina,
+        }).
+            then(
+                function (dataResult) {
+                    console.log(dataResult);
+                    $scope.recargarJugadores();
+                },
+                function (error) {
+                    console.log("error envio jugador ", error);
+                })
+
     }
 
 

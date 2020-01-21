@@ -8,66 +8,88 @@
     </div>
 
     <!-- juego -->
-    <div>
+    <div class="">
+        <div>
+            <div ng-model="Juego">
+                <br />
 
-        <div ng-model="Juego">
-            <br />
-
-            <form class="form-inline">
-                <div>
-                    <!--ng-show="TipoBloqueo.Nombres"-->
+                <form class="form-inline">
                     <div>
-                        <div class="dividir">
-                            <p class="puntos">
-                                Ingresa nombre del jugador:
+                        <!--ng-show="TipoBloqueo.Nombres"-->
+                        <div>
+                            <div class="dividir">
+                                <p class="puntos">
+                                    Ingresa nombre del jugador:
 
-                            </p>
-                            <BR />
-                            <input type="text" class="form-control  " ng-model="Juego.Jugador.Nombre" placeholder="Jugador x"
-                                   ng-change="Juego.Jugador.Nombre" maxlength="22"
-                                   oninput="if (this.value.length > this.maxLength)this.value = this.value.slice(0, this.maxLength);" />
+                                </p>
+                                <BR />
+                                <input type="text" class="form-control  " ng-model="Juego.Jugador.Nombre" placeholder="Jugador x"
+                                       ng-change="Juego.Jugador.Nombre" maxlength="22"
+                                       oninput="if (this.value.length > this.maxLength)this.value = this.value.slice(0, this.maxLength);" />
+
+                            </div>
+                        </div>
+
+                        <div>
+
+                            <br />
+                            <br />
+                        </div>
+                        <!--ng-click="desbloquear()"-->
+                        <button type="submit" class="btn btn-primary mb-2 " ng-click="crearJugadorback();asignarTiempo()">Jugar</button> <br />
+                        <div>
+                            <div class="a">
+                                Buscando otro jugador <br />
+                                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                                <span class="sr-only">Loading...</span>
+
+                            </div>
+                            <div class="a">
+                                <button type="submit" class="btn btn-primary mb-2 " ng-click="activarMaquina()">Jugar contra la maquina</button>
+
+                            </div>
+
+
+
 
                         </div>
+                        {{Juego.Jugador.Nombre}}
+                        <!--<button type="submit" class="btn btn-primary mb-2 " ng-click="activarMaquina()">maquina</button>-->
+
                     </div>
 
+                </form>
+            </div>
+            <!--ng-show="TipoBloqueo.Juego"-->
+            <!--turno-->
+
+            <div class="aa">
+          
+                <div class="">
+                    <div class="a">
+                        <p class="puntos">tiempo del turno  </p>
+                        <p class="puntosMasgrande">{{tiempo.Turno}}</p>
+                    </div>
+                    <div class="a">
+                        <p class="puntos">Tiempo buscar jugador  </p>
+                        <p class="puntosMasgrande">{{tiempo.BuscarJugador}}</p>
+                    </div>
                     <div>
-
-                        <br />
-                        <br />
                     </div>
-                    <!--ng-click="desbloquear()"-->
-                    <button type="submit" class="btn btn-primary mb-2 " ng-click="crearJugadorback()">Jugar</button>
-                    <!--<button type="submit" class="btn btn-primary mb-2 " ng-click="activarMaquina()">maquina</button>-->
-
                 </div>
 
-            </form>
+            </div>
         </div>
-        <!--ng-show="TipoBloqueo.Juego"-->
-        <!--turno-->
-
-        <div class="aa">
-            <div class="a">
+        <divclass ="nn">
+            <div>
                 <p class="puntos">Turno  </p>
                 <p class="puntosMasgrande">{{Juego.Jugador.Estrategia}}</p>
+                
             </div>
-            <div class="a">
-                <div>
-                    <p class="puntos">tiempo del turno  </p>
-                    <p class="puntosMasgrande">{{tiempo.Turno}}</p>
-                </div>
-                <div>
-                    <p class="puntos">Tiempo buscar jugador  </p>
-                    <p class="puntosMasgrande">{{tiempo.BuscarJugador}}</p>
-                </div>
-                <div>
-                </div>
-            </div>
-
-        </div>
+</div>           
         <!-- tablero del juego -->
-        <div>
-            
+        <div class="nn">
+
             <div class="tab ">
                 <div class="table2">
                     <table class="table table-bordered  ">
@@ -105,4 +127,4 @@
         <br />
     </div>
 </div>
-    
+

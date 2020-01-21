@@ -22,7 +22,8 @@ app.controller('JuegodePiedraPapeloTijeraExtendidoController', function ($scope)
 
     ];
     /* 
-     * Muestra los resultados del juego según la estrategia de los jugadores  */
+     * Procesar los valores ingresados para saber quién gana
+     */
     $scope.jugar = function () {
         if ($scope.jugadores.estrategia1 == $scope.jugadores.estrategia2)
             $scope.resutado = "Es un empate.  ";
@@ -88,7 +89,9 @@ app.controller('JuegodePiedraPapeloTijeraExtendidoController', function ($scope)
         else
             $scope.resutado = "error ";
     }
-
+    /*
+     * limpiar las variables
+     */
     $scope.limpiar = function () {
         $scope.bloqueos.imagene1 = false;
         $scope.bloqueos.imagene2 = false;

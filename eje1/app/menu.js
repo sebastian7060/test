@@ -34,6 +34,10 @@ app.config(function ($routeProvider) {
             controller: "TriquiOnlineController",
 
         })
+        .when("/Inicio", {
+            templateUrl: "html/Inicio.html",
+            controller: "InicioController",
 
+        })
 
 }); 
